@@ -1,0 +1,14 @@
+# Données métier et pièces jointes privées
+Data/
+
+# Versions historiques et sauvegardes locales
+Sauvegardes_dashboard/
+Sauvegardes_versions/
+*.bak
+
+# Fichiers système Windows
+Thumbs.db
+Desktop.ini
+
+# Fichiers générés localement
+.DS_Store

@@ -1,0 +1,2546 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>H.ESSERS — Gestion de Parc</title>
+<link rel="icon" type="image/png" href="assets/images/favicon.png">
+<link rel="stylesheet" href="assets/css/01-commun.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <img
+        class="brand-logo brand-logo-full"
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/H.Essers_Logo.svg/500px-H.Essers_Logo.svg.png"
+        alt="H.Essers"
+        onerror="this.onerror=null;this.src='https://easyfairsassets.com/sites/74/2022/07/logo_essers_compact_notranspossible_RED-transparant.jpg';"
+      >
+      <img
+        class="brand-logo brand-logo-compact"
+        src="assets/images/image-1.png"
+        alt="H.Essers"
+      >
+    </div>
+
+    <nav class="nav">
+      <button class="nav-btn active" data-view="accueil"><span class="nav-ico"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-6h5v6"/></svg></span><span>Accueil</span></button>
+      <button class="nav-btn" data-view="parc"><span class="nav-ico"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h11v10H3z"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg></span><span>Parc</span></button>
+      <button class="nav-btn" data-view="chauffeur"><span class="nav-ico"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg></span><span>Chauffeur</span></button>
+      <button class="nav-btn" data-view="sinistre"><span class="nav-ico"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2.5 20h19z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></span><span>Sinistre</span></button>
+      <button class="nav-btn" data-view="suivi-technique"><span class="nav-ico"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5-5l2.1 2.1-2.8 2.8-2.1-2.1a4 4 0 0 0 5 5L20 17.2 17.2 20z"/></svg></span><span>Suivi technique</span></button>
+      
+      <button class="nav-btn" data-view="carburant"><span class="nav-ico"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22V4a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v18"/><path d="M3 22h15"/><path d="M8 6h5v5H8z"/><path d="M16 7h2l3 3v7a2 2 0 0 1-4 0v-4"/></svg></span><span>Carburant</span></button>
+<button class="nav-btn" data-view="gestion-administrative"><span class="nav-ico"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v14H4z"/><path d="M8 9h8"/><path d="M8 13h8"/><path d="M8 17h5"/></svg></span><span>Gestion administrative</span></button>
+      <button class="nav-btn" id="administratorNavButton" data-view="administrateur" hidden>
+        <span class="nav-ico">
+          <svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3 20 7v5c0 5-3.4 8-8 9-4.6-1-8-4-8-9V7z"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
+        </span>
+        <span>Administrateur</span>
+      </button>
+    </nav>
+
+    <button class="sidebar-bottom" id="sidebarCollapseButton" type="button" title="Réduire le menu" aria-label="Réduire le menu">
+      <svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      <span id="sidebarCollapseLabel">Réduire le menu</span>
+    </button>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="top-left" aria-hidden="true">
+        <div class="top-title" id="pageTitle" aria-hidden="true"></div>
+      </div>
+
+      <div class="top-center">
+        <div class="global-search-wrap">
+          <span class="global-search-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></span>
+          <input
+            class="global-search"
+            id="globalSearch"
+            type="search"
+            placeholder="Rechercher partout..."
+            autocomplete="off"
+          >
+          <button
+            class="global-search-clear"
+            id="globalSearchClear"
+            type="button"
+            aria-label="Effacer la recherche"
+            hidden
+          ><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+
+          <div class="global-search-results" id="globalSearchResults" hidden></div>
+        </div>
+      </div>
+
+      <div class="top-right">
+
+        <button class="dashboard-user-badge" id="dashboardUserBadge" type="button" title="Changer d’identifiant utilisateur" aria-label="Identifiant utilisateur">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21a8 8 0 0 0-16 0"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          <span id="dashboardUserLabel">Utilisateur</span>
+        </button>
+        <button class="shared-storage-btn" id="sharedStorageButton" type="button" title="Stockage partagé" aria-label="État du stockage partagé">
+          <svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 7h6l2 2h8v10H4z"/>
+            <path d="M4 7v12"/>
+          </svg>
+          <span class="shared-storage-dot"></span>
+          <span class="shared-storage-label" id="sharedStorageLabel">À activer</span>
+        </button>
+        <button class="theme-switch" id="themeSwitch" type="button" role="switch" aria-checked="false" title="Changer le thème">
+          <span class="theme-switch-icon theme-switch-sun"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"/></svg></span>
+          <span class="theme-switch-track">
+            <span class="theme-switch-thumb"></span>
+          </span>
+          <span class="theme-switch-icon theme-switch-moon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3 6.6 6.6 0 0 0 21 12.8z"/></svg></span>
+        </button>
+        <button class="top-bell" id="notificationBell" type="button" title="Notifications" aria-label="Notifications">
+          <svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg>
+          <span class="top-bell-badge" id="notificationBadge" hidden>0</span>
+        </button>
+      </div>
+    </header>
+
+    <section id="accueil" class="view active">
+      <div class="home-page">
+        <header class="home-hero">
+          <div class="home-hero-copy">
+            <div class="home-kicker"><span class="home-kicker-dot"></span> PILOTAGE DU PARC</div>
+            <h1>Bonjour, voici votre journée.</h1>
+            <p>Les chiffres essentiels et les sujets à traiter sont réunis ici pour décider en un coup d’œil.</p>
+            <div class="home-hero-actions">
+              <button class="home-primary-action" type="button" data-home-view="parc">Ouvrir le parc <span>→</span></button>
+              <button class="home-secondary-action" type="button" data-home-view="suivi-technique">Voir les échéances</button>
+            </div>
+          </div>
+          <div class="home-hero-meta">
+            <div class="home-date-label">AUJOURD’HUI</div>
+            <div class="home-date" id="homeDate">—</div>
+            <div class="home-status"><span></span> Données locales à jour</div>
+          </div>
+        </header>
+
+        <div class="home-kpis">
+          <button class="home-kpi home-kpi--fleet" type="button" data-home-view="parc">
+            <span class="home-kpi-mark"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h11v10H3z"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg></span>
+            <span class="home-kpi-content"><span class="home-kpi-label">VÉHICULES AU PARC</span><strong id="homeVehicles">0</strong><small id="homeVehiclesSub">—</small></span><span class="home-kpi-arrow">↗</span>
+          </button>
+          <button class="home-kpi home-kpi--people" type="button" data-home-view="chauffeur">
+            <span class="home-kpi-mark"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg></span>
+            <span class="home-kpi-content"><span class="home-kpi-label">CHAUFFEURS</span><strong id="homeDrivers">0</strong><small>Fiches actives</small></span><span class="home-kpi-arrow">↗</span>
+          </button>
+          <button class="home-kpi home-kpi--risk" type="button" data-home-view="sinistre">
+            <span class="home-kpi-mark"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2.5 20h19z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></span>
+            <span class="home-kpi-content"><span class="home-kpi-label">SINISTRES OUVERTS</span><strong id="homeClaims">0</strong><small>Dossiers non clôturés</small></span><span class="home-kpi-arrow">↗</span>
+          </button>
+          <button class="home-kpi home-kpi--maintenance" type="button" data-home-view="suivi-technique">
+            <span class="home-kpi-mark"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5-5l2.1 2.1-2.8 2.8-2.1-2.1a4 4 0 0 0 5 5L20 17.2 17.2 20z"/></svg></span>
+            <span class="home-kpi-content"><span class="home-kpi-label">ÉCHÉANCES TECHNIQUES</span><strong id="homeMaintenance">0</strong><small>À faire ou à prévoir</small></span><span class="home-kpi-arrow">↗</span>
+          </button>
+        </div>
+
+        <div class="home-main-grid">
+          <div class="home-stack">
+            <section class="home-panel home-panel--priority">
+              <div class="home-panel-head"><div><span class="home-panel-index">01</span><h2>Priorités du jour</h2></div><span class="home-panel-caption">ACTION REQUISE</span></div>
+              <div class="home-alerts">
+                <button class="home-alert home-alert--urgent" type="button" data-home-view="suivi-technique"><span class="home-alert-icon">!</span><span><b>Vidanges à faire</b><small>Échéance atteinte ou dépassée</small></span><strong id="homeLateMaintenance">0</strong><span class="home-alert-chevron">→</span></button>
+                <button class="home-alert home-alert--warning" type="button" data-home-view="suivi-technique"><span class="home-alert-icon">◷</span><span><b>Vidanges à prévoir</b><small>Moins de 5 000 km restants</small></span><strong id="homeSoonMaintenance">0</strong><span class="home-alert-chevron">→</span></button>
+                <button class="home-alert home-alert--urgent" type="button" data-home-view="gestion-administrative" data-home-admin-tab="fines"><span class="home-alert-icon">!</span><span><b>Amendes à traiter</b><small>Dossiers demandant une action</small></span><strong id="homeFinesTodo">0</strong><span class="home-alert-chevron">→</span></button>
+                <button class="home-alert home-alert--warning" type="button" data-home-view="gestion-administrative" data-home-admin-tab="rungis"><span class="home-alert-icon">▣</span><span><b>Cartes Rungis hors parc</b><small>Immatriculation absente de la liste Parc</small></span><strong id="homeRungisOutside">0</strong><span class="home-alert-chevron">→</span></button>
+              </div>
+            </section>
+
+            <section class="home-panel home-panel--fleet">
+              <div class="home-panel-head"><div><span class="home-panel-index">02</span><h2>Composition du parc</h2></div><button class="home-text-action" type="button" data-home-view="parc">Détail du parc ↗</button></div>
+              <div class="home-fleet-grid">
+                <button class="home-stat-box" type="button" data-home-view="parc"><span class="home-stat-label">TRACTEURS</span><strong id="homeTractors">0</strong><small>Véhicules moteurs</small></button>
+                <button class="home-stat-box" type="button" data-home-view="parc"><span class="home-stat-label">SEMI-REMORQUES</span><strong id="homeSemis">0</strong><small>Unités tractées</small></button>
+                <button class="home-stat-box home-stat-box--attention" type="button" data-home-view="parc"><span class="home-stat-label">NON AFFECTÉS</span><strong id="homeUnassigned">0</strong><small>Sans affectation actuelle</small></button>
+              </div>
+            </section>
+
+            <section class="home-panel home-panel--admin">
+              <div class="home-panel-head"><div><span class="home-panel-index">03</span><h2>Repères administratifs</h2></div><button class="home-text-action" type="button" data-home-view="gestion-administrative">Ouvrir la gestion ↗</button></div>
+              <div class="home-admin-grid"><div class="home-admin-box"><span>AMENDES ENREGISTRÉES</span><strong id="homeFineTotal">0</strong></div><div class="home-admin-box"><span>CARTES RUNGIS</span><strong id="homeRungisTotal">0</strong></div><div class="home-admin-box"><span>SITES CONFIGURÉS</span><strong id="homeSitesConfigured">0 / 3</strong></div></div>
+            </section>
+          </div>
+
+          <div class="home-stack">
+            <section class="home-panel home-panel--fuel">
+              <div class="home-panel-head"><div><span class="home-panel-index">04</span><h2>Carburant</h2></div><button class="home-text-action" type="button" data-home-view="carburant">Voir le suivi ↗</button></div>
+              <div class="home-fuel-empty" id="homeFuelEmpty">Aucune commande carburant enregistrée.</div>
+              <div class="home-fuel-content" id="homeFuelContent" hidden><div class="home-fuel-prices"><div><span>GASOIL</span><strong id="homeFuelDiesel">—</strong></div><div><span>GNR</span><strong id="homeFuelGnr">—</strong></div><div><span>ADBLUE</span><strong id="homeFuelAdblue">—</strong></div></div><div class="home-fuel-last"><span>DERNIÈRE COMMANDE</span><b id="homeFuelLastSupplier">—</b><small id="homeFuelLastDelivery">—</small><div class="home-fuel-last-grid"><span>Gasoil <b id="homeFuelLastDiesel">—</b></span><span>GNR <b id="homeFuelLastGnr">—</b></span><span>AdBlue <b id="homeFuelLastAdblue">—</b></span></div></div></div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="parc" class="view">
+      <div class="parc-page">
+        <div class="parc-head">
+          <div>
+            <div class="parc-eyebrow">GESTION DU PARC</div>
+            <h1>Parc véhicules</h1>
+            <p>Consultez l’ensemble des tracteurs et semi-remorques enregistrés.</p>
+          </div>
+          <div class="parc-head-actions">
+            <button class="tool-btn export-btn" id="exportParkCsv"><span class="button-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg></span>Exporter CSV</button>
+          </div>
+        </div>
+
+        <div class="parc-stats four">
+          <div class="card parc-stat">
+            <div class="parc-stat-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></div>
+            <div><div class="parc-stat-label">TOTAL VÉHICULES</div><div class="parc-stat-value" id="parkTotal">0</div></div>
+          </div>
+          <div class="card parc-stat">
+            <div class="parc-stat-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h11v10H3z"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg></div>
+            <div><div class="parc-stat-label">TRACTEURS</div><div class="parc-stat-value" id="parkTractors">0</div></div>
+          </div>
+          <div class="card parc-stat">
+            <div class="parc-stat-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h15v9H3z"/><path d="M18 11h3v5h-3"/><circle cx="7" cy="18" r="2"/><circle cx="16" cy="18" r="2"/></svg></div>
+            <div><div class="parc-stat-label">SEMI-REMORQUES</div><div class="parc-stat-value" id="parkTrailers">0</div></div>
+          </div>
+          <div class="card parc-stat">
+            <div class="parc-stat-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg></div>
+            <div>
+              <div class="parc-stat-label">NON AFFECTÉS</div>
+              <div class="parc-stat-value" id="parkUnassigned">0</div>
+              <div class="parc-stat-sub" id="parkUnassignedBreakdown">0 tracteur · 0 semi</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card parc-database">
+          <div class="parc-database-head">
+            <div>
+              <div class="parc-database-title">
+                <div class="section-title">BASE DE DONNÉES DU PARC</div>
+                <span class="demo-tag">Données importées</span>
+              </div>
+              <div class="parc-database-subtitle">Données reprises de la feuille « Parc » de votre fichier Excel.</div>
+            </div>
+            <div class="search-box parc-search section-inline-search">
+              <input id="parkSearch" placeholder="Rechercher une immatriculation ou un n° de parc...">
+              <span><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></span>
+            </div>
+            <div class="parc-tools">
+              <button class="tool-btn primary" id="addParkVehicle"><span class="button-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>Ajouter un véhicule</button>
+              <button class="tool-btn" id="openAffectations"><span class="button-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2h6v2"/><path d="M9 9h6M9 13h6"/></svg></span>Affectations</button>
+              <select class="park-filter" id="parkTypeFilter" aria-label="Filtrer par type de véhicule">
+                <option value="">Tous les types</option>
+                <option value="Tracteur">Tracteur</option>
+                <option value="Semi">Semi</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-wrap parc-table-wrap">
+            <table class="parc-table">
+              <thead>
+                <tr><th>IMMATRICULATION</th><th>TYPE</th><th>N° DE PARC</th><th>AFFECTATION</th><th>DERNIÈRE MODIF.</th><th>ACTIONS</th></tr>
+              </thead>
+              <tbody id="parkTable"></tbody>
+            </table>
+          </div>
+
+          <div class="parc-database-foot">
+            <span id="parkResultCount">0 véhicule affiché</span>
+            <span><strong>5 colonnes</strong> de données + actions</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+    <section id="affectations" class="view">
+      <div class="parc-page">
+        <div class="parc-head">
+          <div>
+            <div class="parc-eyebrow">GESTION DU PARC</div>
+            <h1>Affectations</h1>
+            <p>Consultez et modifiez les affectations des chauffeurs.</p>
+          </div>
+          <div class="parc-head-actions">
+            <button class="tool-btn export-btn" id="exportAssignmentsCsv"><span class="button-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg></span>Exporter CSV</button>
+          </div>
+        </div>
+
+        <div class="parc-stats four">
+          <div class="card parc-stat">
+            <div class="parc-stat-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg></div>
+            <div><div class="parc-stat-label">CHAUFFEURS</div><div class="parc-stat-value" id="affTotal">0</div></div>
+          </div>
+          <div class="card parc-stat">
+            <div class="parc-stat-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4L19 6"/></svg></div>
+            <div><div class="parc-stat-label">AVEC TRACTEUR</div><div class="parc-stat-value" id="affAssigned">0</div></div>
+          </div>
+          <div class="card parc-stat">
+            <div class="parc-stat-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg></div>
+            <div><div class="parc-stat-label">SANS TRACTEUR</div><div class="parc-stat-value" id="affUnassigned">0</div></div>
+          </div>
+          <div class="card parc-stat">
+            <div class="parc-stat-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2.5 20h19z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div>
+            <div><div class="parc-stat-label">À VÉRIFIER</div><div class="parc-stat-value" id="affIssues">0</div></div>
+          </div>
+        </div>
+
+        <div class="affectations-workspace">
+          <div class="card affectations-panel">
+            <div class="parc-database-head affectations-head">
+              <div>
+                <div class="parc-database-title">
+                  <div class="section-title">LISTE DES AFFECTATIONS</div>
+                  <span class="demo-tag">Données importées</span>
+                  <div class="search-box affectations-search section-inline-search">
+                    <input id="affSearch" placeholder="Rechercher chauffeur, véhicule ou téléphone...">
+                    <span><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></span>
+                  </div>
+                </div>
+                <div class="parc-database-subtitle">Données reprises de la feuille « Affectations » de votre fichier Excel.</div>
+              </div>
+              <div class="parc-tools affectations-tools">
+                <button class="tool-btn primary" id="addAssignment"><span class="button-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>Ajouter une affectation</button>
+                <button class="tool-btn" id="backToPark"><span class="button-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></span>Retour au parc</button>
+              </div>
+            </div>
+
+            <div class="table-wrap affectations-table-wrap">
+              <table class="parc-table affectations-table">
+                <thead>
+                  <tr>
+                    <th>CHAUFFEUR</th>
+                    <th>TRACTEUR</th>
+                    <th>SEMI</th>
+                    <th>N°</th>
+                    <th>TÉLÉPHONE PRO</th>
+                    <th>N° PERSONNEL</th>
+                    <th>DERNIÈRE MODIF.</th>
+                    <th>ACTIONS</th>
+                  </tr>
+                </thead>
+                <tbody id="affTable"></tbody>
+              </table>
+            </div>
+
+            <div class="parc-database-foot">
+              <span id="affCount">0 chauffeur affiché</span>
+              <span>Utilisez les ••• pour modifier ou supprimer une affectation</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="chauffeur" class="view">
+      <div class="driver-page">
+        <div class="driver-head">
+          <div>
+            <div class="parc-eyebrow">GESTION DES CHAUFFEURS</div>
+            <h1>Chauffeur</h1>
+            <p>Centralisez les informations personnelles et administratives de chaque chauffeur.</p>
+          </div>
+          <button class="tool-btn" id="exportDriversCsv"><span class="button-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg></span>Exporter CSV</button>
+        </div>
+
+        <div class="driver-workspace">
+          <div class="card driver-list-card">
+            <div class="driver-list-head">
+              <div class="driver-list-title">LISTE DES CHAUFFEURS</div>
+              <div class="driver-list-tools">
+                <button class="tool-btn primary" id="addDriver"><span class="button-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>Ajouter</button>
+                <select class="driver-status-filter" id="driverStatusFilter" aria-label="Filtrer les chauffeurs par statut">
+                  <option value="active">Tous</option>
+                  <option value="titulaire">Titulaire</option>
+                  <option value="jockey">Jockey</option>
+                  <option value="regional">Régional</option>
+                  <option value="inactive">Inactif</option>
+                </select>
+                <div class="driver-search">
+                  <input id="driverSearch" placeholder="Rechercher nom ou prénom...">
+                  <span><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></span>
+                </div>
+              </div>
+            </div>
+            <div class="driver-list" id="driverList"></div>
+            <div class="driver-list-foot" id="driverListCount">0 chauffeur</div>
+          </div>
+
+          <div class="card driver-detail">
+            <div class="driver-detail-empty" id="driverEmptyState">
+              <div>
+                <div class="driver-detail-empty-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg></div>
+                <h2>Sélectionnez un chauffeur</h2>
+                <p>Cliquez sur un nom dans la liste pour consulter et compléter sa fiche personnelle.</p>
+              </div>
+            </div>
+
+            <div class="driver-detail-content" id="driverDetailContent" hidden>
+              <div class="driver-detail-head">
+                <div class="driver-title-wrap">
+                  <div class="driver-big-avatar" id="driverBigAvatar">--</div>
+                  <div>
+                    <div class="parc-eyebrow">FICHE CHAUFFEUR</div>
+                    <div class="driver-detail-name" id="driverDetailName">—</div>
+                    <div class="driver-detail-hint">Lecture seule. Cliquez sur Modifier la fiche pour changer les informations.</div>
+                  </div>
+                </div>
+                <div class="driver-edit-actions">
+                  <button class="driver-edit-btn" id="editDriver" type="button">Modifier la fiche</button>
+                  <button class="driver-cancel-btn" id="cancelDriverEdit" type="button" hidden>Annuler</button>
+                  <button class="driver-save-btn" id="saveDriver" type="button" hidden>Enregistrer</button>
+                </div>
+              </div>
+
+              <div class="driver-form-section">
+                <div class="driver-section-title">INFORMATIONS PERSONNELLES</div>
+                <div class="driver-form-grid">
+                  <div class="driver-field">
+                    <label for="driverLastName">NOM</label>
+                    <input id="driverLastName" autocomplete="family-name" disabled>
+                  </div>
+                  <div class="driver-field">
+                    <label for="driverFirstName">PRÉNOM</label>
+                    <input id="driverFirstName" autocomplete="given-name" disabled>
+                  </div>
+                  <div class="driver-field">
+                    <label for="driverStatus">TYPE DE CHAUFFEUR</label>
+                    <select id="driverStatus" disabled>
+                      <option value="titulaire">Titulaire</option>
+                      <option value="jockey">Jockey</option>
+                      <option value="regional">Régional</option>
+                      <option value="inactive">Inactif</option>
+                    </select>
+                  </div>
+                  <div class="driver-field">
+                    <label for="driverBirthDate">DATE DE NAISSANCE</label>
+                    <input id="driverBirthDate" type="date" disabled>
+                  </div>
+                  <div class="driver-field">
+                    <label for="driverBirthCity">VILLE DE NAISSANCE</label>
+                    <input id="driverBirthCity" disabled>
+                  </div>
+                  <div class="driver-field">
+                    <label for="driverBirthPostalCode">CODE POSTAL VILLE DE NAISSANCE</label>
+                    <input id="driverBirthPostalCode" maxlength="12" autocomplete="off" disabled>
+                  </div>
+                  <div class="driver-field">
+                    <label for="driverPhone">TÉLÉPHONE</label>
+                    <input id="driverPhone" placeholder="06 00 00 00 00" autocomplete="tel" disabled>
+                  </div>
+                </div>
+              </div>
+
+              <div class="driver-form-section">
+                <div class="driver-section-title">ADRESSE</div>
+                <div class="driver-form-grid">
+                  <div class="driver-field full">
+                    <label for="driverAddress">ADRESSE</label>
+                    <input id="driverAddress" placeholder="N° et nom de rue" autocomplete="street-address" disabled>
+                  </div>
+                  <div class="driver-field">
+                    <label for="driverPostalCode">CODE POSTAL</label>
+                    <input id="driverPostalCode" maxlength="5" inputmode="numeric" autocomplete="postal-code" disabled>
+                  </div>
+                  <div class="driver-field">
+                    <label for="driverCity">VILLE</label>
+                    <input id="driverCity" autocomplete="address-level2" disabled>
+                  </div>
+                </div>
+              </div>
+
+              <div class="driver-form-section">
+                <div class="driver-section-title">PERMIS DE CONDUIRE</div>
+                <div class="driver-form-grid">
+                  <div class="driver-field">
+                    <label for="driverLicenseNumber">N° DE PERMIS</label>
+                    <input id="driverLicenseNumber" disabled>
+                  </div>
+                  <div class="driver-field">
+                    <label for="driverLicenseIssueDate">DATE DE DÉLIVRANCE</label>
+                    <input id="driverLicenseIssueDate" type="date" disabled>
+                  </div>
+                  <div class="driver-field">
+                    <label for="driverLicenseExpiry">DATE D'EXPIRATION</label>
+                    <input id="driverLicenseExpiry" type="date" disabled>
+                  </div>
+                </div>
+              </div>
+              <div class="driver-save-notice" id="driverSaveNotice"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+<section id="sinistre" class="view">
+  <div class="claim-page">
+    <div class="claim-head">
+      <div>
+        <div class="parc-eyebrow">GESTION DES SINISTRES</div>
+        <h1>Sinistre</h1>
+        <p>Déclarez et suivez les incidents, dossiers d’assurance et dommages subis par les véhicules.</p>
+      </div>
+    </div>
+
+    <div class="claim-page-actions">
+      <button class="claim-file add" type="button" id="scaniaPartButton">
+        <span class="button-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>
+        Pièce Scania
+      </button>
+      <button class="claim-file add" type="button" id="downloadClaimInvoiceTemplate">
+        <span class="button-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg></span>
+        Facture
+      </button>
+    </div>
+
+    <div class="claim-kpis">
+      <div class="card claim-kpi">
+        <div class="claim-kpi-icon red"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2.5 20h19z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div>
+        <div>
+          <div class="claim-kpi-label">SINISTRES OUVERTS</div>
+          <div class="claim-kpi-value" id="claimOpenCount">0</div>
+          <div class="claim-kpi-sub">En cours de traitement</div>
+        </div>
+      </div>
+
+      <div class="card claim-kpi">
+        <div class="claim-kpi-icon orange"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <div>
+          <div class="claim-kpi-label">À TRAITER</div>
+          <div class="claim-kpi-value" id="claimWaitingCount">0</div>
+          <div class="claim-kpi-sub">En attente d’action</div>
+        </div>
+      </div>
+
+      <div class="card claim-kpi">
+        <div class="claim-kpi-icon green"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4L19 6"/></svg></div>
+        <div>
+          <div class="claim-kpi-label">DOSSIERS CLOS</div>
+          <div class="claim-kpi-value" id="claimClosedCount">0</div>
+          <div class="claim-kpi-sub">Dossiers terminés</div>
+        </div>
+      </div>
+
+      <div class="card claim-kpi">
+        <div class="claim-kpi-icon red"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 7a7 7 0 1 0 0 10"/><path d="M5 10h9M5 14h8"/></svg></div>
+        <div>
+          <div class="claim-kpi-label">COÛT ESTIMÉ</div>
+          <div class="claim-kpi-value" id="claimCostTotal">0 €</div>
+          <div class="claim-kpi-sub">Sur les sinistres ouverts</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="claim-workspace">
+      <div class="card claim-list-card">
+        <div class="claim-list-head">
+          <div class="claim-tools">
+            <div class="claim-search">
+              <input id="claimSearch" placeholder="Rechercher un sinistre...">
+              <span><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></span>
+            </div>
+            <button class="tool-btn primary" id="addClaim"><span class="button-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>Déclarer un sinistre</button>
+          </div>
+        </div>
+
+        <div class="claim-table-wrap">
+          <table class="claim-table">
+            <thead>
+              <tr>
+                <th>DATE</th>
+                <th>CHAUFFEUR</th>
+                <th>VÉHICULE</th>
+                <th>TYPE</th>
+                <th>STATUT</th>
+                <th>ASSURANCE</th>
+                <th>ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody id="claimTable"></tbody>
+          </table>
+        </div>
+
+        <div class="claim-table-foot">
+          <span id="claimCountLabel">0 sinistre affiché</span>
+          <span>Cliquez sur une ligne pour afficher la fiche</span>
+        </div>
+      </div>
+
+      <div class="card claim-detail-card">
+        <div class="claim-detail-title">FICHE SINISTRE</div>
+
+        <div class="claim-detail-empty" id="claimDetailEmpty">
+          <div>
+            <div class="claim-detail-empty-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2.5 20h19z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div>
+            <h2>Aucun sinistre sélectionné</h2>
+            <p>Déclarez un sinistre ou sélectionnez un dossier dans la liste pour afficher sa fiche.</p>
+          </div>
+        </div>
+
+        <div class="claim-detail-content" id="claimDetailContent" hidden>
+          <div class="claim-detail-grid">
+            <div class="claim-detail-row">
+              <div class="claim-detail-label">N° DOSSIER</div>
+              <input class="claim-input" id="claimDetailNumber" placeholder="N° fourni par l’agence">
+            </div>
+
+            <div class="claim-detail-row">
+              <div class="claim-detail-label">DATE</div>
+              <input class="claim-input" id="claimDetailDate" type="date">
+            </div>
+
+            <div class="claim-detail-row">
+              <div class="claim-detail-label">CHAUFFEUR</div>
+              <select class="claim-select" id="claimDetailDriver"></select>
+            </div>
+
+            <div class="claim-detail-row">
+              <div class="claim-detail-label">VÉHICULE</div>
+              <select class="claim-select" id="claimDetailVehicle"></select>
+            </div>
+
+            <div class="claim-detail-row">
+              <div class="claim-detail-label">ASSURANCE</div>
+              <div class="claim-detail-value">AXA France</div>
+            </div>
+
+            <div class="claim-detail-row">
+              <div class="claim-detail-label">TIERS IMPLIQUÉ</div>
+              <input class="claim-input" id="claimDetailThirdParty">
+            </div>
+
+            <div class="claim-detail-row">
+              <div class="claim-detail-label">TYPE DE SINISTRE</div>
+              <input class="claim-input" id="claimDetailType">
+            </div>
+
+            <div class="claim-detail-row">
+              <div class="claim-detail-label">COÛT ESTIMÉ (€)</div>
+              <input class="claim-input" id="claimDetailCost" inputmode="decimal">
+            </div>
+
+            <div class="claim-detail-row">
+              <div class="claim-detail-label">STATUT</div>
+              <select class="claim-select" id="claimDetailStatus">
+                <option value="Ouvert">Ouvert</option>
+                <option value="En attente">En attente</option>
+                <option value="Urgent">Urgent</option>
+                <option value="Clos">Clos</option>
+              </select>
+            </div>
+
+            <div class="claim-detail-row full">
+              <div class="claim-detail-label">DESCRIPTION</div>
+              <textarea class="claim-textarea" id="claimDetailDescription"></textarea>
+            </div>
+
+            <div class="claim-detail-row full">
+              <div class="claim-detail-label">
+                PIÈCES JOINTES
+                <span class="claim-help">Stockées localement dans ce navigateur</span>
+              </div>
+              <div class="claim-attachments" id="claimAttachmentList"></div>
+              <input id="claimAttachmentInput" type="file" multiple hidden>
+            </div>
+          </div>
+
+          <div class="claim-timeline">
+            <div class="claim-detail-label">
+              SUIVI
+              <span class="claim-help">Cliquez sur un rond pour changer l’avancement</span>
+            </div>
+
+            <div class="claim-timeline-track" id="claimTimeline">
+              <button class="claim-step" type="button" data-stage="0">
+                <div class="claim-step-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4z"/></svg></div>
+                <div class="claim-step-title">Déclaré</div>
+                <div class="claim-step-sub">Dossier créé</div>
+              </button>
+
+              <button class="claim-step" type="button" data-stage="1">
+                <div class="claim-step-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg></div>
+                <div class="claim-step-title">Assurance</div>
+                <div class="claim-step-sub">Envoyé</div>
+              </button>
+
+              <button class="claim-step" type="button" data-stage="2">
+                <div class="claim-step-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5c0 5 3 8 7 10 4-2 7-5 7-10V6z"/><path d="m9 12 2 2 4-4"/></svg></div>
+                <div class="claim-step-title">Expertise</div>
+                <div class="claim-step-sub">En cours</div>
+              </button>
+
+              <button class="claim-step" type="button" data-stage="3">
+                <div class="claim-step-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4L19 6"/></svg></div>
+                <div class="claim-step-title">Clôturé</div>
+                <div class="claim-step-sub">Terminé</div>
+              </button>
+            </div>
+          </div>
+
+          <div class="claim-detail-actions">
+            <button class="tool-btn" type="button" id="cancelClaimChanges">Annuler</button>
+            <button class="tool-btn primary" type="button" id="saveClaim">Enregistrer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="claim-bottom">
+      <div class="card claim-bottom-card">
+        <div class="claim-bottom-title">RÉPARTITION PAR TYPE</div>
+        <div id="claimTypeSummary"></div>
+      </div>
+
+      <div class="card claim-bottom-card">
+        <div class="claim-bottom-title">ASSURANCE</div>
+        <div class="claim-insurance-box">
+          <div class="claim-insurance-name">AXA France</div>
+          <div class="claim-insurance-agency">Agence Chirat Bertrand</div>
+        </div>
+      </div>
+
+      <div class="card claim-bottom-card">
+        <div class="claim-bottom-title">DERNIERS ÉVÉNEMENTS</div>
+        <div class="claim-events" id="claimEvents"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+    <section id="suivi-technique" class="view">
+  <div class="technical-root">
+    <div class="technical-hub" id="technicalHub">
+      <div class="technical-hub-head">
+        <div>
+          <div class="parc-eyebrow">SUIVI TECHNIQUE</div>
+          <h1>Suivi technique</h1>
+          <p>Centralisez les vidanges et les échéances réglementaires des véhicules.</p>
+        </div>
+        <div class="technical-hub-actions">
+          <button class="tool-btn primary" type="button" id="importTechnicalDeadlines">⇧ &nbsp; Importer le tableau d'échéances</button>
+          <input id="technicalDeadlinesInput" type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden>
+        </div>
+      </div>
+
+      <div class="technical-overview-kpis">
+        <div class="card technical-overview-kpi"><div class="technical-kpi-label">MODULES</div><div class="technical-kpi-value">7</div><div class="technical-kpi-sub">Vidanges + 6 contrôles</div></div>
+        <div class="card technical-overview-kpi"><div class="technical-kpi-label">ÉCHÉANCES IMPORTÉES</div><div class="technical-kpi-value" id="technicalHubTotal">0</div><div class="technical-kpi-sub">Tableau d'échéances</div></div>
+        <div class="card technical-overview-kpi danger"><div class="technical-kpi-label">DÉPASSÉES</div><div class="technical-kpi-value" id="technicalHubLate">0</div><div class="technical-kpi-sub">Date d'échéance dépassée</div></div>
+        <div class="card technical-overview-kpi warn"><div class="technical-kpi-label">DANS LES 30 JOURS</div><div class="technical-kpi-value" id="technicalHubSoon">0</div><div class="technical-kpi-sub">À planifier prochainement</div></div>
+      </div>
+
+      <div class="technical-modules-grid" id="technicalModulesGrid">
+        <button class="card technical-module-card vidange" type="button" data-tech-page="vidange">
+          <div class="technical-module-icon">⌁</div><div class="technical-module-content"><div class="technical-module-title">Vidanges</div><div class="technical-module-description">Kilométrage, dernière grosse vidange et prochain entretien.</div><div class="technical-module-meta"><span id="technicalVidangeCount">0 véhicules</span><span id="technicalVidangeAlert">—</span></div></div><span class="technical-module-arrow">›</span>
+        </button>
+        <button class="card technical-module-card" type="button" data-tech-page="tachy"><div class="technical-module-icon">◷</div><div class="technical-module-content"><div class="technical-module-title">Tachygraphe</div><div class="technical-module-description">Contrôle périodique du chronotachygraphe.</div><div class="technical-module-meta"><span data-tech-count="tachy">0 lignes</span><span data-tech-alert="tachy">—</span></div></div><span class="technical-module-arrow">›</span></button>
+        <button class="card technical-module-card" type="button" data-tech-page="mines"><div class="technical-module-icon">▣</div><div class="technical-module-content"><div class="technical-module-title">Mines</div><div class="technical-module-description">Passages aux mines des tracteurs et semi-remorques.</div><div class="technical-module-meta"><span data-tech-count="mines">0 lignes</span><span data-tech-alert="mines">—</span></div></div><span class="technical-module-arrow">›</span></button>
+        <button class="card technical-module-card" type="button" data-tech-page="limiteur"><div class="technical-module-icon">⌁</div><div class="technical-module-content"><div class="technical-module-title">Limiteur</div><div class="technical-module-description">Contrôle du limiteur de vitesse.</div><div class="technical-module-meta"><span data-tech-count="limiteur">0 lignes</span><span data-tech-alert="limiteur">—</span></div></div><span class="technical-module-arrow">›</span></button>
+        <button class="card technical-module-card" type="button" data-tech-page="confinement"><div class="technical-module-icon">◇</div><div class="technical-module-content"><div class="technical-module-title">Confinement</div><div class="technical-module-description">Échéances de contrôle confinement.</div><div class="technical-module-meta"><span data-tech-count="confinement">0 lignes</span><span data-tech-alert="confinement">—</span></div></div><span class="technical-module-arrow">›</span></button>
+        <button class="card technical-module-card" type="button" data-tech-page="sanitaire"><div class="technical-module-icon">✚</div><div class="technical-module-content"><div class="technical-module-title">Sanitaire / ATP</div><div class="technical-module-description">Renouvellement ATP et échéances sanitaires.</div><div class="technical-module-meta"><span data-tech-count="sanitaire">0 lignes</span><span data-tech-alert="sanitaire">—</span></div></div><span class="technical-module-arrow">›</span></button>
+      </div>
+
+      <div class="technical-source-note card">
+        <div><strong>Source :</strong> tableau d'échéances — feuilles Tachy, Mines, Limiteur, Confinement et Sanitaire.</div>
+        <div id="technicalImportNotice">Données intégrées au dashboard.</div>
+      </div>
+    </div>
+
+    <div class="technical-subpage" id="technicalVidangePage" hidden>
+
+  <div class="vid-page">
+    <div class="vid-head">
+      <div>
+        <div class="parc-eyebrow">SUIVI TECHNIQUE</div>
+        <h1>Vidanges tracteurs</h1>
+        <p>Suivi des kilomètres et des prochaines vidanges — données reprises de la feuille « Vidange TFMO ».</p>
+      </div>
+      <div class="vid-head-actions">
+        <button class="tool-btn" type="button" data-tech-back>← &nbsp; Retour Suivi technique</button>
+        <button class="tool-btn" type="button" id="printVidangeList">▤ &nbsp; Imprimer la liste</button>
+      </div>
+    </div>
+
+    <div class="vid-kpis">
+      <div class="card vid-kpi"><div class="vid-kpi-icon gray"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h11v10H3z"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg></div><div><div class="vid-kpi-label">TRACTEURS SUIVIS</div><div class="vid-kpi-value" id="vidTotal">0</div><div class="vid-kpi-sub">Feuille Vidange TFMO</div></div></div>
+      <div class="card vid-kpi"><div class="vid-kpi-icon red"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2.5 20h19z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div><div><div class="vid-kpi-label">VIDANGE À FAIRE</div><div class="vid-kpi-value" id="vidLate">0</div><div class="vid-kpi-sub">Échéance atteinte ou dépassée</div></div></div>
+      <div class="card vid-kpi"><div class="vid-kpi-icon orange"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><div><div class="vid-kpi-label">À PRÉVOIR</div><div class="vid-kpi-value" id="vidSoon">0</div><div class="vid-kpi-sub">Moins de 5 000 km</div></div></div>
+      <div class="card vid-kpi"><div class="vid-kpi-icon green">✓</div><div><div class="vid-kpi-label">À JOUR</div><div class="vid-kpi-value" id="vidOk">0</div><div class="vid-kpi-sub">Plus de 5 000 km restants</div></div></div>
+    </div>
+
+    <div class="vid-workspace">
+      <div class="card vid-list-card">
+        <div class="vid-list-head">
+          <div class="vid-list-title-row">
+            <div class="vid-list-title">SUIVI DES VIDANGES</div>
+            <span class="vid-source-tag">145 lignes importées</span>
+          </div>
+          <div class="vid-tools">
+            <button class="tool-btn primary" type="button" id="importJef">⇧ &nbsp; Importer JEF</button>
+            <input id="jefXlsxInput" type="file"
+              accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+              hidden>
+            <div class="vid-search"><input id="vidSearch" placeholder="Rechercher une plaque, un nom ou un prénom..."><span><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></span></div>
+          </div>
+        </div>
+
+        <div class="vid-table-wrap" id="vidTableWrap">
+          <table class="vid-table">
+            <thead><tr>
+              <th>IMMATRICULATION</th><th>CHAUFFEUR</th><th>PROCHAINE VIDANGE</th><th>KM ACTUEL</th>
+              <th>KM DERNIÈRE GROSSE VIDANGE</th><th>DERNIER PASSAGE GARAGE</th><th>STATUT</th>
+            </tr></thead>
+            <tbody id="vidTable"></tbody>
+          </table>
+        </div>
+
+        <div class="vid-table-foot"><span id="vidCountLabel">0 véhicule affiché</span><span>Tri automatique par prochaine vidange</span></div>
+      </div>
+
+      <div class="card vid-detail-card">
+        <div class="vid-detail-title">VÉHICULE SÉLECTIONNÉ</div>
+        <div class="vid-detail-empty" id="vidDetailEmpty">
+          <div><div class="vid-detail-empty-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5-5l2.1 2.1-2.8 2.8-2.1-2.1a4 4 0 0 0 5 5L20 17.2 17.2 20z"/></svg></div><h2>Sélectionnez un tracteur</h2><p>Cliquez sur une ligne pour consulter ou corriger les kilomètres de la fiche.</p></div>
+        </div>
+
+        <div class="vid-detail-content" id="vidDetailContent" hidden>
+          <div class="vid-vehicle-head">
+            <div><div class="vid-plate" id="vidDetailPlate">—</div><div class="vid-driver" id="vidDetailDriver">—</div></div>
+            <span class="vid-status ok" id="vidDetailStatus">À jour</span>
+          </div>
+
+          <div class="vid-form">
+            <div class="vid-field"><label for="vidCurrentKm">KILOMÉTRAGE ACTUEL</label><input id="vidCurrentKm" inputmode="numeric"></div>
+            <div class="vid-two-cols">
+              <div class="vid-field"><label for="vidLastMajorKm">KM DERNIÈRE GROSSE VIDANGE</label><input id="vidLastMajorKm" inputmode="numeric"></div>
+              <div class="vid-field"><label for="vidLastGarageKm">DERNIER PASSAGE GARAGE — KM</label><input id="vidLastGarageKm" inputmode="numeric"></div>
+            </div>
+            <div class="vid-calc-box">
+              <div class="label">PROCHAINE VIDANGE</div>
+              <div class="vid-calc-value" id="vidDetailNext">—</div>
+              <div class="vid-calc-rule" id="vidDetailRule">—</div>
+            </div>
+            <div class="vid-actions"><button class="tool-btn" type="button" id="cancelVidChanges">Annuler</button><button class="tool-btn primary" type="button" id="saveVidRecord">Enregistrer</button></div>
+            <div class="vid-notice" id="vidNotice"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    </div>
+
+    <div class="technical-subpage" id="technicalDeadlinePage" hidden>
+      <div class="technical-deadline-page">
+        <div class="technical-deadline-head">
+          <div>
+            <div class="parc-eyebrow">SUIVI TECHNIQUE</div>
+            <h1 id="technicalDeadlineTitle">Échéances</h1>
+            <p id="technicalDeadlineDescription">Contrôles techniques et réglementaires.</p>
+          </div>
+          <div class="technical-deadline-head-actions">
+            <button class="tool-btn" type="button" data-tech-back>← &nbsp; Retour Suivi technique</button>
+            <button class="tool-btn" type="button" id="technicalDeadlineExport">⇩ &nbsp; Exporter CSV</button>
+          </div>
+        </div>
+
+        <div class="technical-deadline-kpis">
+          <div class="card technical-deadline-kpi"><div class="technical-kpi-label">TOTAL</div><div class="technical-kpi-value" id="technicalDeadlineTotal">0</div><div class="technical-kpi-sub">Échéances suivies</div></div>
+          <div class="card technical-deadline-kpi danger"><div class="technical-kpi-label">DÉPASSÉ</div><div class="technical-kpi-value" id="technicalDeadlineLate">0</div><div class="technical-kpi-sub">À traiter</div></div>
+          <div class="card technical-deadline-kpi warn"><div class="technical-kpi-label">≤ 30 JOURS</div><div class="technical-kpi-value" id="technicalDeadlineSoon">0</div><div class="technical-kpi-sub">À prévoir</div></div>
+          <div class="card technical-deadline-kpi ok"><div class="technical-kpi-label">À JOUR</div><div class="technical-kpi-value" id="technicalDeadlineOk">0</div><div class="technical-kpi-sub">Plus de 30 jours</div></div>
+        </div>
+
+        <div class="card technical-deadline-list-card">
+          <div class="technical-deadline-toolbar">
+            <div class="technical-deadline-list-heading"><div class="section-title" id="technicalDeadlineListTitle">LISTE DES ÉCHÉANCES</div><span class="vid-source-tag" id="technicalDeadlineSourceCount">0 lignes importées</span></div>
+            <div class="technical-deadline-tools">
+              <div class="vid-search technical-deadline-search"><input id="technicalDeadlineSearch" placeholder="Rechercher une plaque, un chauffeur ou un exploitant..."><span>⌕</span></div>
+              <select class="park-filter" id="technicalDeadlineStatusFilter" aria-label="Filtrer par statut"><option value="">Tous les statuts</option><option value="late">Dépassé</option><option value="soon">À prévoir</option><option value="ok">À jour</option></select>
+            </div>
+          </div>
+          <div class="technical-deadline-table-wrap">
+            <table class="technical-deadline-table">
+              <thead id="technicalDeadlineHead"></thead>
+              <tbody id="technicalDeadlineBody"></tbody>
+            </table>
+          </div>
+          <div class="vid-table-foot"><span id="technicalDeadlineCountLabel">0 ligne affichée</span><span>Tri par prochaine échéance</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <section id="carburant" class="view">
+  <div class="fuel-page">
+    <div class="fuel-head">
+      <div>
+        <div class="parc-eyebrow">SUIVI CARBURANT</div>
+        <h1>Carburant</h1>
+        <p>Suivez les commandes, livraisons et l’évolution des prix du carburant.</p>
+      </div>
+    </div>
+
+    <div class="fuel-kpis">
+      <div class="card fuel-kpi">
+        <div class="fuel-kpi-icon red"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22V4a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v18"/><path d="M3 22h15"/><path d="M8 6h5v5H8z"/><path d="M16 7h2l3 3v7a2 2 0 0 1-4 0v-4"/></svg></div>
+        <div>
+          <div class="fuel-kpi-label">PRIX MOYEN GASOIL</div>
+          <div class="fuel-kpi-value" id="fuelAvgDiesel">—</div>
+          <div class="fuel-kpi-sub">Moyenne des commandes renseignées</div>
+        </div>
+      </div>
+
+      <div class="card fuel-kpi">
+        <div class="fuel-kpi-icon orange"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2s6 6.2 6 11a6 6 0 1 1-12 0c0-4.8 6-11 6-11z"/></svg></div>
+        <div>
+          <div class="fuel-kpi-label">PRIX MOYEN GNR</div>
+          <div class="fuel-kpi-value" id="fuelAvgGnr">—</div>
+          <div class="fuel-kpi-sub">Moyenne des commandes renseignées</div>
+        </div>
+      </div>
+
+      <div class="card fuel-kpi">
+        <div class="fuel-kpi-icon blue"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2s6 6.2 6 11a6 6 0 1 1-12 0c0-4.8 6-11 6-11z"/></svg></div>
+        <div>
+          <div class="fuel-kpi-label">PRIX MOYEN ADBLUE</div>
+          <div class="fuel-kpi-value" id="fuelAvgAdblue">—</div>
+          <div class="fuel-kpi-sub">Moyenne des commandes renseignées</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fuel-grid">
+      <div class="card fuel-list-card">
+        <div class="fuel-list-head">
+          <div class="fuel-list-title-row">
+            <div class="fuel-list-title">COMMANDES CARBURANT</div>
+          </div>
+
+          <div class="fuel-tools">
+            <button class="tool-btn primary" id="addFuelEntry" type="button"><span class="button-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>Ajouter une commande</button>
+
+            <div class="fuel-search">
+              <input id="fuelSearch" placeholder="Rechercher un fournisseur ou une date...">
+              <span><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="fuel-table-wrap" id="fuelTableWrap">
+          <table class="fuel-table">
+            <thead>
+              <tr>
+                <th>FOURNISSEUR</th>
+                <th>DATE COMMANDE</th>
+                <th>DATE LIVRAISON</th>
+                <th>QTÉ GASOIL</th>
+                <th>QTÉ GNR</th>
+                <th>QTÉ ADBLUE</th>
+                <th>PRIX GASOIL</th>
+                <th>PRIX GNR</th>
+                <th>PRIX ADBLUE</th>
+                <th>ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody id="fuelTable"></tbody>
+          </table>
+        </div>
+
+        <div class="fuel-table-foot">
+          <span id="fuelCountLabel">0 commande affichée</span>
+          <span>À partir de la 12e ligne, la liste devient défilable</span>
+        </div>
+        <div class="fuel-statistics" id="fuelStatistics">
+          <div class="fuel-statistics-head">
+            <div>
+              <div class="fuel-chart-title">STATISTIQUES QUANTITÉS</div>
+              <div class="fuel-statistics-sub">Volumes commandés par fournisseur et période</div>
+            </div>
+            <label class="fuel-period-filter">Période
+              <select id="fuelStatsPeriod">
+                <option value="all">Toutes</option>
+                <option value="year">Année en cours</option>
+                <option value="quarter">3 derniers mois</option>
+                <option value="month">Mois en cours</option>
+              </select>
+            </label>
+          </div>
+          <div class="fuel-stats-table-wrap">
+            <table class="fuel-stats-table">
+              <thead><tr><th>FOURNISSEUR</th><th>GASOIL</th><th>GNR</th><th>ADBLUE</th><th>TOTAL</th></tr></thead>
+              <tbody id="fuelStatsTable"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="fuel-monthly-cost-card" id="fuelMonthlyCost">
+          <div class="fuel-statistics-head">
+            <div>
+              <div class="fuel-chart-title">COÛT DES COMMANDES PAR MOIS</div>
+              <div class="fuel-statistics-sub">Calculé avec les quantités en litres et les prix au m³</div>
+            </div>
+          </div>
+          <div class="fuel-stats-table-wrap">
+            <table class="fuel-stats-table">
+              <thead><tr><th>MOIS</th><th>GASOIL</th><th>GNR</th><th>ADBLUE</th><th>TOTAL</th></tr></thead>
+              <tbody id="fuelMonthlyCostTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="fuel-side">
+        <div class="card fuel-chart-card">
+          <div class="fuel-chart-title">ÉVOLUTION PRIX GASOIL</div>
+          <div class="fuel-chart-wrap">
+            <canvas class="fuel-chart" id="fuelDieselChart"></canvas>
+            <div class="fuel-chart-empty" id="fuelDieselChartEmpty">Aucune donnée Gasoil pour le moment.</div>
+          </div>
+        </div>
+
+        <div class="card fuel-chart-card">
+          <div class="fuel-chart-title">ÉVOLUTION PRIX GNR</div>
+          <div class="fuel-chart-wrap">
+            <canvas class="fuel-chart" id="fuelGnrChart"></canvas>
+            <div class="fuel-chart-empty" id="fuelGnrChartEmpty">Aucune donnée GNR pour le moment.</div>
+          </div>
+        </div>
+
+        <div class="card fuel-last-card">
+          <div class="fuel-last-title">DERNIÈRE COMMANDE</div>
+          <div class="fuel-last-grid">
+            <div class="fuel-last-cell">
+              <div class="fuel-last-label">FOURNISSEUR</div>
+              <div class="fuel-last-value" id="fuelLastSupplier">—</div>
+            </div>
+            <div class="fuel-last-cell">
+              <div class="fuel-last-label">LIVRAISON</div>
+              <div class="fuel-last-value" id="fuelLastDelivery">—</div>
+            </div>
+            <div class="fuel-last-cell">
+              <div class="fuel-last-label">GASOIL</div>
+              <div class="fuel-last-value" id="fuelLastDiesel">—</div>
+            </div>
+            <div class="fuel-last-cell">
+              <div class="fuel-last-label">GNR</div>
+              <div class="fuel-last-value" id="fuelLastGnr">—</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <section id="gestion-administrative" class="view">
+  <div class="admin-page">
+    <div class="admin-head">
+      <div class="parc-eyebrow">GESTION ADMINISTRATIVE</div>
+      <h1>Gestion administrative</h1>
+      <p>Centralisez les amendes, les cartes Rungis et les accès aux outils externes.</p>
+    </div>
+
+    <div class="admin-hub">
+      <div class="card admin-hub-card active" data-admin-tab="fines">
+        <div class="admin-hub-top">
+          <div class="admin-hub-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2.5 20h19z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div>
+          <div class="admin-hub-count" id="adminHubFineCount">0</div>
+        </div>
+        <h2>Amendes</h2>
+        <p>Suivi des infractions à envoyer, contestations et dossiers clôturés.</p>
+        <span class="admin-hub-arrow">›</span>
+      </div>
+
+      <div class="card admin-hub-card" data-admin-tab="rungis">
+        <div class="admin-hub-top">
+          <div class="admin-hub-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18"/><path d="M7 15h4"/></svg></div>
+          <div class="admin-hub-count" id="adminHubRungisCount">0</div>
+        </div>
+        <h2>Cartes Rungis</h2>
+        <p>Gestion des numéros de cartes et de leur affectation aux véhicules.</p>
+        <span class="admin-hub-arrow">›</span>
+      </div>
+
+      <div class="card admin-hub-card" data-admin-tab="sites">
+        <div class="admin-hub-top">
+          <div class="admin-hub-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6"/><path d="M10 14 20 4"/><path d="M20 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6"/></svg></div>
+          <div class="admin-hub-count">3</div>
+        </div>
+        <h2>Sites & outils</h2>
+        <p>Accès rapides à DKV, IDS et Lumesia depuis le dashboard.</p>
+        <span class="admin-hub-arrow">›</span>
+      </div>
+    </div>
+
+    <!-- AMENDES -->
+    <div class="admin-section active" id="adminSectionFines">
+      <div class="admin-kpis">
+        <div class="card admin-kpi">
+          <div class="admin-kpi-label">TOTAL AMENDES</div>
+          <div class="admin-kpi-value" id="fineTotal">0</div>
+          <div class="admin-kpi-sub">Dossiers enregistrés</div>
+        </div>
+        <div class="card admin-kpi">
+          <div class="admin-kpi-label">À TRAITER</div>
+          <div class="admin-kpi-value" id="fineTodo">0</div>
+          <div class="admin-kpi-sub">Action nécessaire</div>
+        </div>
+        <div class="card admin-kpi">
+          <div class="admin-kpi-label">DÉSIGNÉ / CONTESTÉ</div>
+          <div class="admin-kpi-value" id="finePending">0</div>
+          <div class="admin-kpi-sub">Dossiers en cours</div>
+        </div>
+        <div class="card admin-kpi">
+          <div class="admin-kpi-label">CLOS</div>
+          <div class="admin-kpi-value" id="fineClosed">0</div>
+          <div class="admin-kpi-sub">Dossiers terminés</div>
+        </div>
+      </div>
+
+      <div class="card admin-card">
+        <div class="admin-card-head">
+          <div class="admin-card-title-row">
+            <div class="admin-card-title">AMENDES</div>
+          </div>
+          <div class="admin-tools">
+            <button class="tool-btn primary" id="addFine" type="button"><span class="button-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>Ajouter une amende</button>
+            <div class="admin-search">
+              <input id="fineSearch" placeholder="Rechercher plaque, chauffeur, infraction...">
+              <span><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-table-wrap" id="fineTableWrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>DATE</th>
+                <th>IMMATRICULATION</th>
+                <th>CHAUFFEUR</th>
+                <th>INFRACTION</th>
+                <th>MONTANT</th>
+                <th>RÉFÉRENCE</th>
+                <th>STATUT</th>
+                <th>ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody id="fineTable"></tbody>
+          </table>
+        </div>
+
+        <div class="admin-table-foot">
+          <span id="fineCountLabel">0 amende affichée</span>
+          <span>À partir de la 12e ligne, la liste devient défilable</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARTES RUNGIS -->
+    <div class="admin-section" id="adminSectionRungis">
+      <div class="admin-kpis">
+        <div class="card admin-kpi">
+          <div class="admin-kpi-label">CARTES ENREGISTRÉES</div>
+          <div class="admin-kpi-value" id="rungisTotal">140</div>
+          <div class="admin-kpi-sub">Fichier Cartes M.I.N. Rungis</div>
+        </div>
+        <div class="card admin-kpi">
+          <div class="admin-kpi-label">AFFECTÉES</div>
+          <div class="admin-kpi-value" id="rungisAssigned">0</div>
+          <div class="admin-kpi-sub">Avec une immatriculation</div>
+        </div>
+        <div class="card admin-kpi">
+          <div class="admin-kpi-label">SANS VÉHICULE</div>
+          <div class="admin-kpi-value" id="rungisFree">0</div>
+          <div class="admin-kpi-sub">Carte non affectée</div>
+        </div>
+        <div class="card admin-kpi">
+          <div class="admin-kpi-label">HORS PARC</div>
+          <div class="admin-kpi-value" id="rungisOutsidePark">0</div>
+          <div class="admin-kpi-sub">Plaque absente du Parc</div>
+        </div>
+      </div>
+
+      <div class="card admin-card">
+        <div class="admin-card-head">
+          <div class="admin-card-title-row">
+            <div class="admin-card-title">CARTES RUNGIS</div>
+          </div>
+          <div class="admin-tools">
+            <button class="tool-btn primary" id="addRungis" type="button"><span class="button-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>Ajouter une carte</button>
+            <div class="admin-search">
+              <input id="rungisSearch" placeholder="Rechercher un n° de carte, une plaque ou un n° parc...">
+              <span><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-table-wrap" id="rungisTableWrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>N° CARTE</th>
+                <th>IMMATRICULATION</th>
+                <th>N° PARC</th>
+                <th>ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody id="rungisTable"></tbody>
+          </table>
+        </div>
+
+        <div class="admin-table-foot">
+          <span id="rungisCountLabel">0 carte affichée</span>
+          <span>N° parc récupéré automatiquement depuis le Parc</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SITES -->
+    <div class="admin-section" id="adminSectionSites">
+      <div class="admin-sites-grid">
+        <div class="card admin-site" data-site-key="dkv">
+          <div class="admin-site-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6"/><path d="M10 14 20 4"/><path d="M20 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6"/></svg></div>
+          <h3>DKV</h3>
+          <p>Accès au portail DKV.</p>
+          <div class="admin-site-url" id="siteUrl_dkv">Adresse non configurée</div>
+          <div class="admin-site-actions">
+            <button class="tool-btn admin-site-open disabled" type="button" data-open-site="dkv">Ouvrir</button>
+            <button class="tool-btn" type="button" data-edit-site="dkv">Configurer</button>
+          </div>
+        </div>
+
+        <div class="card admin-site" data-site-key="ids">
+          <div class="admin-site-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6"/><path d="M10 14 20 4"/><path d="M20 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6"/></svg></div>
+          <h3>IDS</h3>
+          <p>Accès à votre outil IDS.</p>
+          <div class="admin-site-url" id="siteUrl_ids">Adresse non configurée</div>
+          <div class="admin-site-actions">
+            <button class="tool-btn admin-site-open disabled" type="button" data-open-site="ids">Ouvrir</button>
+            <button class="tool-btn" type="button" data-edit-site="ids">Configurer</button>
+          </div>
+        </div>
+
+        <div class="card admin-site" data-site-key="lumesia">
+          <div class="admin-site-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6"/><path d="M10 14 20 4"/><path d="M20 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6"/></svg></div>
+          <h3>Lumesia</h3>
+          <p>Accès au portail Lumesia.</p>
+          <div class="admin-site-url" id="siteUrl_lumesia">Adresse non configurée</div>
+          <div class="admin-site-actions">
+            <button class="tool-btn admin-site-open disabled" type="button" data-open-site="lumesia">Ouvrir</button>
+            <button class="tool-btn" type="button" data-edit-site="lumesia">Configurer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <section id="administrateur" class="view">
+      <div class="superadmin-page">
+        <div class="superadmin-head">
+          <div>
+            <div class="parc-eyebrow">SUPERVISION DU DASHBOARD</div>
+            <h1>Administrateur</h1>
+            <p>Utilisateurs actifs, connexions et historique des modifications.</p>
+          </div>
+          <div class="superadmin-head-actions">
+            <div class="adminsec-tools">
+              <span class="adminsec-chip" id="adminSecurityChip">🔒 <span id="adminSecurityChipText">Verrouillé</span></span>
+              <button class="tool-btn" id="adminSecurityLockButton" type="button">Verrouiller</button>
+              <button class="tool-btn" id="adminSecurityChangeButton" type="button">Changer le mot de passe</button>
+            </div>
+            <div class="superadmin-state" id="superadminState">
+              <span class="superadmin-state-dot"></span>
+              <span id="superadminStateText">En attente</span>
+            </div>
+            <button class="tool-btn primary" id="superadminRefresh" type="button">
+              <span class="button-icon">
+                <svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 11a8 8 0 1 0 2 5"/>
+                  <path d="M20 4v7h-7"/>
+                </svg>
+              </span>
+              Actualiser
+            </button>
+          </div>
+        </div>
+
+        <div class="superadmin-kpis">
+          <div class="card superadmin-kpi">
+            <div class="superadmin-kpi-label">UTILISATEURS EN LIGNE</div>
+            <div class="superadmin-kpi-value" id="superadminOnlineCount">0</div>
+            <div class="superadmin-kpi-sub">Actifs dans les 2 dernières minutes</div>
+          </div>
+          <div class="card superadmin-kpi">
+            <div class="superadmin-kpi-label">CONNEXIONS AUJOURD’HUI</div>
+            <div class="superadmin-kpi-value" id="superadminLoginToday">0</div>
+            <div class="superadmin-kpi-sub">Ouvertures du dashboard</div>
+          </div>
+          <div class="card superadmin-kpi">
+            <div class="superadmin-kpi-label">ACTIONS AUJOURD’HUI</div>
+            <div class="superadmin-kpi-value" id="superadminActionsToday">0</div>
+            <div class="superadmin-kpi-sub">Ajouts, modifications et suppressions</div>
+          </div>
+          <div class="card superadmin-kpi">
+            <div class="superadmin-kpi-label">DERNIÈRE ACTIVITÉ</div>
+            <div class="superadmin-kpi-value" id="superadminLastActivity">—</div>
+            <div class="superadmin-kpi-sub" id="superadminLastActivityUser">Aucune activité</div>
+          </div>
+        </div>
+
+        <div class="superadmin-top-grid">
+          <div class="card superadmin-card">
+            <div class="superadmin-card-head">
+              <div>
+                <div class="superadmin-card-title">UTILISATEURS EN LIGNE</div>
+                <div class="superadmin-card-sub">Présence mise à jour automatiquement</div>
+              </div>
+              <span class="superadmin-count" id="superadminOnlineBadge">0</span>
+            </div>
+            <div class="superadmin-table-wrap compact">
+              <table class="superadmin-table">
+                <thead>
+                  <tr>
+                    <th>UTILISATEUR</th>
+                    <th>STATUT</th>
+                    <th>PAGE</th>
+                    <th>DERNIÈRE ACTIVITÉ</th>
+                  </tr>
+                </thead>
+                <tbody id="superadminOnlineTable"></tbody>
+              </table>
+              <div class="superadmin-empty" id="superadminOnlineEmpty" hidden>Aucun utilisateur actif.</div>
+            </div>
+          </div>
+
+          <div class="card superadmin-card">
+            <div class="superadmin-card-head">
+              <div>
+                <div class="superadmin-card-title">DERNIÈRES CONNEXIONS</div>
+                <div class="superadmin-card-sub">Ouvertures récentes du dashboard</div>
+              </div>
+            </div>
+            <div class="superadmin-table-wrap compact">
+              <table class="superadmin-table">
+                <thead>
+                  <tr>
+                    <th>UTILISATEUR</th>
+                    <th>DATE</th>
+                    <th>HEURE</th>
+                  </tr>
+                </thead>
+                <tbody id="superadminLoginTable"></tbody>
+              </table>
+              <div class="superadmin-empty" id="superadminLoginEmpty" hidden>Aucune connexion enregistrée.</div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="production-admin-grid">
+          <div class="card production-admin-card">
+            <div class="superadmin-card-head">
+              <div>
+                <div class="superadmin-card-title">QUALITÉ DES DONNÉES</div>
+                <div class="superadmin-card-sub">Contrôles automatiques de cohérence</div>
+              </div>
+              <button class="tool-btn" id="qualityRefresh" type="button">Analyser</button>
+            </div>
+            <div class="production-admin-body">
+              <div class="quality-summary">
+                <div class="quality-score good" id="qualityScore">100</div>
+                <div class="quality-copy">
+                  <strong id="qualityTitle">Données cohérentes</strong>
+                  <span id="qualitySubtitle">Aucune anomalie détectée.</span>
+                </div>
+              </div>
+              <div class="quality-list" id="qualityList"></div>
+            </div>
+          </div>
+
+          <div class="card production-admin-card">
+            <div class="superadmin-card-head">
+              <div>
+                <div class="superadmin-card-title">SAUVEGARDES</div>
+                <div class="superadmin-card-sub">Snapshot automatique quotidien des données JSON</div>
+              </div>
+              <span class="superadmin-count" id="backupCount">0</span>
+            </div>
+            <div class="production-admin-body">
+              <div class="backup-actions">
+                <button class="tool-btn primary" id="backupNow" type="button">Sauvegarder maintenant</button>
+                <button class="tool-btn" id="backupLocalExport" type="button">Exporter localement</button>
+                <button class="tool-btn" id="backupLocalImport" type="button">Restaurer un fichier</button>
+                <input id="backupLocalInput" type="file" accept="application/json,.json" hidden>
+                <button class="tool-btn" id="backupRefresh" type="button">Actualiser</button>
+              </div>
+              <div class="backup-list" id="backupList">
+                <div class="vehicle-none">Aucune sauvegarde détectée.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="card dashboard-update-card">
+          <div class="superadmin-card-head">
+            <div>
+              <div class="superadmin-card-title">MISE À JOUR DU DASHBOARD</div>
+              <div class="superadmin-card-sub">Remplacer le fichier HTML partagé sans manipulation manuelle</div>
+            </div>
+            <span class="superadmin-count" id="dashboardUpdateBackupCount">0</span>
+          </div>
+          <div class="dashboard-update-body">
+            <div class="dashboard-update-grid">
+              <div class="dashboard-update-info">
+                <div class="dashboard-update-title">Fichier actuellement utilisé</div>
+                <div class="dashboard-update-copy">
+                  Le dashboard sauvegarde l’ancienne version avant chaque remplacement.
+                  Les données du dossier <b>data</b> ne sont jamais remplacées.
+                </div>
+                <div class="dashboard-update-meta">
+                  <span class="dashboard-update-chip" id="dashboardUpdateRootChip">Dossier principal non autorisé</span>
+                  <span class="dashboard-update-chip" id="dashboardUpdateCurrentFileChip">Fichier : —</span>
+                </div>
+                <div class="dashboard-update-note">
+                  Sauvegardes HTML : <span class="dashboard-update-file">Sauvegardes_dashboard\</span>
+                </div>
+              </div>
+              <div class="dashboard-update-actions">
+                <button class="tool-btn" id="dashboardAuthorizeRoot" type="button">Autoriser le dossier</button>
+                <button class="tool-btn primary" id="dashboardUpdateButton" type="button">Mettre à jour</button>
+                <button class="tool-btn" id="dashboardRestorePrevious" type="button">Restaurer précédente</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card superadmin-card superadmin-history">
+          <div class="superadmin-card-head">
+            <div>
+              <div class="superadmin-card-title">HISTORIQUE DES ACTIONS</div>
+              <div class="superadmin-card-sub">Journal partagé du dashboard</div>
+            </div>
+            <div class="superadmin-history-tools">
+              <input id="superadminHistorySearch" type="search" placeholder="Rechercher...">
+              <select id="superadminUserFilter">
+                <option value="">Tous les utilisateurs</option>
+              </select>
+              <select id="superadminActionFilter">
+                <option value="">Toutes les actions</option>
+                <option value="Connexion">Connexion</option>
+                <option value="Ajout">Ajout</option>
+                <option value="Modification">Modification</option>
+                <option value="Suppression">Suppression</option>
+                <option value="Mise à jour en lot">Mise à jour en lot</option>
+                <option value="Pièce jointe">Pièce jointe</option><option value="Conflit">Conflit</option><option value="Sauvegarde">Sauvegarde</option><option value="Restauration">Restauration</option><option value="Sécurité">Sécurité</option>
+              </select>
+              <button class="tool-btn" id="superadminExport" type="button">Exporter CSV</button>
+            </div>
+          </div>
+
+          <div class="superadmin-history-wrap">
+            <table class="superadmin-table">
+              <thead>
+                <tr>
+                  <th>DATE / HEURE</th>
+                  <th>UTILISATEUR</th>
+                  <th>ACTION</th>
+                  <th>SECTION</th>
+                  <th>ÉLÉMENT</th>
+                  <th>DÉTAIL</th>
+                </tr>
+              </thead>
+              <tbody id="superadminHistoryTable"></tbody>
+            </table>
+            <div class="superadmin-empty" id="superadminHistoryEmpty" hidden>Aucune action enregistrée.</div>
+          </div>
+
+          <div class="superadmin-history-foot">
+            <span id="superadminHistoryCount">0 événement</span>
+            <span>Historique conservé dans le dossier partagé</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+
+
+
+
+<div class="modal-overlay" id="jefModal" hidden>
+  <div class="modal-card jef-card" role="dialog" aria-modal="true" aria-labelledby="jefTitle">
+    <div class="modal-head">
+      <div class="modal-title-wrap">
+        <div class="modal-icon">⇧</div>
+        <div>
+          <h2 id="jefTitle">Import JEF</h2>
+          <p>Vérifiez les kilométrages détectés dans le fichier Excel avant de les appliquer.</p>
+        </div>
+      </div>
+      <button class="modal-close-btn" type="button" id="closeJefModal" aria-label="Fermer"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+
+    <div class="modal-body">
+      <div class="jef-instructions">
+        <strong>Fichier :</strong> <span id="jefFileName">—</span><br>
+        Le dashboard recherche automatiquement les immatriculations présentes dans le suivi
+        et la colonne de kilométrage actuel du fichier <strong>.xlsx</strong>.
+      </div>
+
+      <div class="jef-preview" id="jefPreview">
+        <div class="jef-preview-head">PRÉVISUALISATION DU RAPPROCHEMENT</div>
+        <div class="jef-preview-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>IMMATRICULATION</th>
+                <th>KM DÉTECTÉ</th>
+                <th>KM ACTUEL</th>
+                <th>RÉSULTAT</th>
+              </tr>
+            </thead>
+            <tbody id="jefPreviewBody"></tbody>
+          </table>
+        </div>
+        <div class="jef-summary" id="jefSummary">Lecture du fichier…</div>
+      </div>
+
+      <div class="form-error" id="jefError"></div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="modal-btn" type="button" id="cancelJef">Annuler</button>
+      <button class="modal-btn primary" type="button" id="applyJef" disabled>
+        Mettre à jour les kilométrages
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="fuel-actions-menu" id="fuelActionsMenu" hidden>
+  <button type="button" id="editFuelAction"><span class="menu-icon-badge"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4z"/></svg></span><span>Modifier</span></button>
+  <button class="danger" type="button" id="deleteFuelAction"><span class="menu-icon-badge"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M7 7l1 14h8l1-14"/><path d="M10 11v6M14 11v6"/></svg></span><span>Supprimer</span></button>
+</div>
+
+<div class="modal-overlay" id="fuelModal" hidden>
+  <div class="modal-card fuel-modal-card" role="dialog" aria-modal="true">
+    <div class="modal-head">
+      <div class="modal-title-wrap">
+        <div class="modal-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22V4a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v18"/><path d="M3 22h15"/><path d="M8 6h5v5H8z"/><path d="M16 7h2l3 3v7a2 2 0 0 1-4 0v-4"/></svg></div>
+        <div>
+          <h2 id="fuelModalTitle">Ajouter une commande</h2>
+          <p>Renseignez les informations de commande et de livraison.</p>
+        </div>
+      </div>
+      <button class="modal-close-btn" type="button" id="closeFuelModal"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+
+    <form id="fuelForm">
+      <div class="modal-body">
+        <div class="modal-fields">
+          <div class="form-field full">
+            <label for="fuelSupplier">FOURNISSEUR</label>
+            <select id="fuelSupplier" required>
+              <option value="">— Sélectionner un fournisseur —</option>
+              <option value="Stedis">Stedis</option>
+              <option value="3C">3C</option>
+              <option value="F3C">F3C</option>
+              <option value="Granjon">Granjon</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="fuelOrderDate">DATE COMMANDE</label>
+            <input id="fuelOrderDate" type="date">
+          </div>
+
+          <div class="form-field">
+            <label for="fuelDeliveryDate">DATE LIVRAISON</label>
+            <input id="fuelDeliveryDate" type="date">
+          </div>
+
+          <div class="form-field">
+            <label for="fuelDieselQty">QTÉ GASOIL (L)</label>
+            <input id="fuelDieselQty" inputmode="decimal" placeholder="Ex. 1500">
+          </div>
+
+          <div class="form-field">
+            <label for="fuelGnrQty">QTÉ GNR (L)</label>
+            <input id="fuelGnrQty" inputmode="decimal" placeholder="Ex. 800">
+          </div>
+
+          <div class="form-field">
+            <label for="fuelAdblueQty">QTÉ ADBLUE (L)</label>
+            <input id="fuelAdblueQty" inputmode="decimal" placeholder="Ex. 300">
+          </div>
+
+          <div class="form-field">
+            <label for="fuelDieselPrice">PRIX GASOIL</label>
+            <input id="fuelDieselPrice" inputmode="decimal" placeholder="Ex. 1,715">
+          </div>
+
+          <div class="form-field">
+            <label for="fuelGnrPrice">PRIX GNR</label>
+            <input id="fuelGnrPrice" inputmode="decimal" placeholder="Ex. 1,450">
+          </div>
+
+          <div class="form-field">
+            <label for="fuelAdbluePrice">PRIX ADBLUE</label>
+            <input id="fuelAdbluePrice" inputmode="decimal" placeholder="Ex. 0,394">
+          </div>
+        </div>
+
+        <div class="form-error" id="fuelError"></div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="modal-btn" type="button" id="cancelFuelModal">Annuler</button>
+        <button class="modal-btn primary" type="submit">Enregistrer</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="deleteFuelModal" hidden>
+  <div class="modal-card confirm-card" role="alertdialog" aria-modal="true">
+    <div class="modal-head">
+      <div class="modal-title-wrap">
+        <div class="modal-icon">!</div>
+        <div>
+          <h2>Supprimer cette commande ?</h2>
+          <p>Cette action demande une confirmation.</p>
+        </div>
+      </div>
+      <button class="modal-close-btn" type="button" id="closeDeleteFuel"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+
+    <div class="confirm-copy" id="deleteFuelText">—</div>
+
+    <div class="modal-actions">
+      <button class="modal-btn" type="button" id="cancelDeleteFuel">Annuler</button>
+      <button class="modal-btn danger" type="button" id="confirmDeleteFuel">Supprimer</button>
+    </div>
+  </div>
+</div>
+
+<div class="admin-actions-menu" id="adminActionsMenu" hidden>
+  <button type="button" id="adminEditAction"><span class="menu-icon-badge"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4z"/></svg></span><span>Modifier</span></button>
+  <button class="danger" type="button" id="adminDeleteAction"><span class="menu-icon-badge"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M7 7l1 14h8l1-14"/><path d="M10 11v6M14 11v6"/></svg></span><span>Supprimer</span></button>
+</div>
+
+<div class="modal-overlay" id="fineModal" hidden>
+  <div class="modal-card admin-modal-card" role="dialog" aria-modal="true">
+    <div class="modal-head">
+      <div class="modal-title-wrap">
+        <div class="modal-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2.5 20h19z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div>
+        <div>
+          <h2 id="fineModalTitle">Ajouter une amende</h2>
+          <p>Renseignez les informations du dossier.</p>
+        </div>
+      </div>
+      <button class="modal-close-btn" type="button" id="closeFineModal"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+
+    <form id="fineForm">
+      <div class="modal-body">
+        <div class="modal-fields">
+          <div class="form-field">
+            <label for="fineDate">DATE</label>
+            <input id="fineDate" type="date">
+          </div>
+          <div class="form-field">
+            <label for="fineVehicle">IMMATRICULATION</label>
+            <select id="fineVehicle"></select>
+          </div>
+          <div class="form-field fine-driver-field">
+            <label for="fineDriver">CHAUFFEUR</label>
+            <div class="fine-driver-control">
+              <select id="fineDriver"></select>
+              <button class="fine-driver-profile-btn" id="openFineDriverProfile" type="button" disabled title="Sélectionnez un chauffeur">
+                <svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="8" r="4"/>
+                  <path d="M4.5 21a7.5 7.5 0 0 1 15 0"/>
+                </svg>
+                <span>Voir la fiche</span>
+              </button>
+            </div>
+          </div>
+          <div class="form-field">
+            <label for="fineAmount">MONTANT (€)</label>
+            <input id="fineAmount" inputmode="decimal">
+          </div>
+          <div class="form-field full">
+            <label for="fineOffense">INFRACTION</label>
+            <input id="fineOffense">
+          </div>
+          <div class="form-field">
+            <label for="fineReference">RÉFÉRENCE / N° AVIS</label>
+            <input id="fineReference">
+          </div>
+          <div class="form-field">
+            <label for="fineStatus">STATUT</label>
+            <select id="fineStatus">
+              <option>À traiter</option>
+              <option>À prévenir</option>
+              <option>À envoyer</option>
+              <option>Contesté</option>
+              <option>Clos</option>
+            </select>
+          </div>
+          <div class="form-field full">
+            <label for="fineNotes">NOTES</label>
+            <input id="fineNotes">
+          </div>
+
+          <div class="fine-attachments-block">
+            <div class="fine-attachments-head">
+              <div class="fine-attachments-title">PIÈCES JOINTES</div>
+              <button class="fine-add-file" id="addFineAttachment" type="button">＋ Ajouter un fichier</button>
+            </div>
+            <input id="fineAttachmentInput" type="file" multiple hidden>
+            <div class="fine-attachments-list" id="fineAttachmentList"></div>
+            <div class="fine-attachment-warning" id="fineAttachmentWarning" hidden>
+              Connectez le stockage partagé pour enregistrer les pièces jointes.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn" type="button" id="cancelFineModal">Annuler</button>
+        <button class="modal-btn primary" type="submit">Enregistrer</button>
+      </div>
+    </form>
+  </div>
+
+  <aside class="fine-driver-preview-card" id="fineDriverPreview" hidden aria-label="Fiche chauffeur liée à l’amende">
+    <div class="modal-head">
+      <div>
+        <div class="parc-eyebrow">FICHE CHAUFFEUR</div>
+        <h2 id="fineDriverPreviewTitle">Chauffeur</h2>
+      </div>
+      <button class="modal-close-btn" type="button" id="closeFineDriverPreview" aria-label="Fermer la fiche chauffeur">
+        <svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+    <div class="fine-driver-preview-body">
+      <div class="fine-driver-preview-identity">
+        <div class="fine-driver-preview-avatar" id="fineDriverPreviewAvatar">—</div>
+        <div>
+          <div class="fine-driver-preview-name" id="fineDriverPreviewName">—</div>
+          <div class="fine-driver-preview-sub">INFORMATIONS DU CHAUFFEUR</div>
+        </div>
+      </div>
+
+      <div class="fine-driver-preview-section">
+        <div class="fine-driver-preview-section-title">IDENTITÉ</div>
+        <div class="fine-driver-preview-grid">
+          <div class="fine-driver-preview-item"><div class="fine-driver-preview-label">DATE DE NAISSANCE</div><div class="fine-driver-preview-value" id="fineDriverPreviewBirthDate">—</div></div>
+          <div class="fine-driver-preview-item"><div class="fine-driver-preview-label">VILLE DE NAISSANCE</div><div class="fine-driver-preview-value" id="fineDriverPreviewBirthCity">—</div></div>
+          <div class="fine-driver-preview-item"><div class="fine-driver-preview-label">CP NAISSANCE</div><div class="fine-driver-preview-value" id="fineDriverPreviewBirthPostalCode">—</div></div>
+          <div class="fine-driver-preview-item"><div class="fine-driver-preview-label">TÉLÉPHONE</div><div class="fine-driver-preview-value" id="fineDriverPreviewPhone">—</div></div>
+        </div>
+      </div>
+
+      <div class="fine-driver-preview-section">
+        <div class="fine-driver-preview-section-title">ADRESSE</div>
+        <div class="fine-driver-preview-grid">
+          <div class="fine-driver-preview-item full"><div class="fine-driver-preview-label">ADRESSE</div><div class="fine-driver-preview-value" id="fineDriverPreviewAddress">—</div></div>
+          <div class="fine-driver-preview-item"><div class="fine-driver-preview-label">CODE POSTAL</div><div class="fine-driver-preview-value" id="fineDriverPreviewPostalCode">—</div></div>
+          <div class="fine-driver-preview-item"><div class="fine-driver-preview-label">VILLE</div><div class="fine-driver-preview-value" id="fineDriverPreviewCity">—</div></div>
+        </div>
+      </div>
+
+      <div class="fine-driver-preview-section">
+        <div class="fine-driver-preview-section-title">PERMIS</div>
+        <div class="fine-driver-preview-grid">
+          <div class="fine-driver-preview-item full"><div class="fine-driver-preview-label">N° DE PERMIS</div><div class="fine-driver-preview-value" id="fineDriverPreviewLicense">—</div></div>
+          <div class="fine-driver-preview-item"><div class="fine-driver-preview-label">DÉLIVRANCE</div><div class="fine-driver-preview-value" id="fineDriverPreviewLicenseIssue">—</div></div>
+          <div class="fine-driver-preview-item"><div class="fine-driver-preview-label">EXPIRATION</div><div class="fine-driver-preview-value" id="fineDriverPreviewLicenseExpiry">—</div></div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+</div>
+
+<div class="modal-overlay" id="rungisModal" hidden>
+  <div class="modal-card admin-modal-card" role="dialog" aria-modal="true">
+    <div class="modal-head">
+      <div class="modal-title-wrap">
+        <div class="modal-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18"/><path d="M7 15h4"/></svg></div>
+        <div>
+          <h2 id="rungisModalTitle">Ajouter une carte Rungis</h2>
+          <p>Le n° parc sera récupéré automatiquement selon l’immatriculation.</p>
+        </div>
+      </div>
+      <button class="modal-close-btn" type="button" id="closeRungisModal"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+
+    <form id="rungisForm">
+      <div class="modal-body">
+        <div class="modal-fields">
+          <div class="form-field">
+            <label for="rungisCardNumber">N° CARTE</label>
+            <input id="rungisCardNumber" required>
+          </div>
+          <div class="form-field">
+            <label for="rungisVehicle">IMMATRICULATION</label>
+            <select id="rungisVehicle"></select>
+          </div>
+          <div class="form-field full">
+            <label>N° PARC</label>
+            <input id="rungisParkNumberPreview" value="—" readonly>
+          </div>
+        </div>
+        <div class="form-error" id="rungisError"></div>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn" type="button" id="cancelRungisModal">Annuler</button>
+        <button class="modal-btn primary" type="submit">Enregistrer</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="siteUrlModal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <div class="modal-head">
+      <div class="modal-title-wrap">
+        <div class="modal-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6"/><path d="M10 14 20 4"/><path d="M20 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6"/></svg></div>
+        <div>
+          <h2 id="siteUrlModalTitle">Configurer l’accès</h2>
+          <p>Cette adresse sera conservée dans ce navigateur.</p>
+        </div>
+      </div>
+      <button class="modal-close-btn" type="button" id="closeSiteUrlModal"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+
+    <form id="siteUrlForm">
+      <div class="modal-body">
+        <div class="form-field">
+          <label for="siteUrlInput">ADRESSE DU SITE</label>
+          <input id="siteUrlInput" type="url" placeholder="https://...">
+        </div>
+        <div class="form-error" id="siteUrlError"></div>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn" type="button" id="cancelSiteUrlModal">Annuler</button>
+        <button class="modal-btn primary" type="submit">Enregistrer</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="adminDeleteModal" hidden>
+  <div class="modal-card confirm-card" role="alertdialog" aria-modal="true">
+    <div class="modal-head">
+      <div class="modal-title-wrap">
+        <div class="modal-icon">!</div>
+        <div>
+          <h2>Supprimer cet élément ?</h2>
+          <p>Cette action demande une confirmation.</p>
+        </div>
+      </div>
+      <button class="modal-close-btn" type="button" id="closeAdminDelete"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <div class="confirm-copy" id="adminDeleteText">—</div>
+    <div class="modal-actions">
+      <button class="modal-btn" type="button" id="cancelAdminDelete">Annuler</button>
+      <button class="modal-btn danger" type="button" id="confirmAdminDelete">Supprimer</button>
+    </div>
+  </div>
+</div>
+
+<div class="claim-actions-menu" id="claimActionsMenu" role="menu" hidden>
+  <button type="button" id="deleteClaimOption" role="menuitem">
+    <span class="menu-icon-badge"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M7 7l1 14h8l1-14"/><path d="M10 11v6M14 11v6"/></svg></span><span>Supprimer</span>
+  </button>
+</div>
+
+<div class="modal-overlay" id="deleteClaimModal" hidden>
+  <div class="modal-card confirm-card" role="alertdialog" aria-modal="true" aria-labelledby="deleteClaimTitle">
+    <div class="modal-head">
+      <div class="modal-title-wrap">
+        <div class="modal-icon">!</div>
+        <div>
+          <h2 id="deleteClaimTitle">Supprimer ce sinistre ?</h2>
+          <p>Cette action demande une confirmation.</p>
+        </div>
+      </div>
+      <button class="modal-close-btn" type="button" id="closeDeleteClaim" aria-label="Fermer"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+
+    <div class="confirm-copy">
+      Le dossier <strong id="deleteClaimNumber">—</strong> sera supprimé.
+      <div class="confirm-warning">
+        Les pièces jointes enregistrées pour ce sinistre seront également supprimées.
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="modal-btn" type="button" id="cancelDeleteClaim">Annuler</button>
+      <button class="modal-btn danger" type="button" id="confirmDeleteClaim">Supprimer</button>
+    </div>
+  </div>
+</div>
+
+<div class="driver-actions-menu" id="driverActionsMenu" role="menu" hidden>
+  <button type="button" id="deleteDriverOption" role="menuitem"><span class="menu-icon-badge"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M7 7l1 14h8l1-14"/><path d="M10 11v6M14 11v6"/></svg></span><span>Supprimer</span></button>
+</div>
+
+<div class="modal-overlay" id="addDriverModal" hidden>
+  <div class="modal-card driver-add-card" role="dialog" aria-modal="true" aria-labelledby="addDriverTitle">
+    <div class="modal-head">
+      <div class="modal-title-wrap">
+        <div class="modal-icon">＋</div>
+        <div>
+          <h2 id="addDriverTitle">Ajouter un chauffeur</h2>
+          <p>Renseignez directement les informations de sa fiche.</p>
+        </div>
+      </div>
+      <button class="modal-close-btn" type="button" id="closeAddDriver" aria-label="Fermer"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+
+    <form id="addDriverForm" novalidate>
+      <div class="modal-body">
+        <div class="modal-fields">
+          <div class="form-field">
+            <label for="newDriverLastName">NOM</label>
+            <input id="newDriverLastName" autocomplete="family-name" required>
+          </div>
+
+          <div class="form-field">
+            <label for="newDriverFirstName">PRÉNOM</label>
+            <input id="newDriverFirstName" autocomplete="given-name" required>
+          </div>
+
+          <div class="form-field">
+            <label for="newDriverStatus">TYPE DE CHAUFFEUR</label>
+            <select id="newDriverStatus">
+              <option value="titulaire">Titulaire</option>
+              <option value="jockey">Jockey</option>
+              <option value="regional">Régional</option>
+              <option value="inactive">Inactif</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="newDriverBirthDate">DATE DE NAISSANCE</label>
+            <input id="newDriverBirthDate" type="date">
+          </div>
+
+          <div class="form-field">
+            <label for="newDriverBirthCity">VILLE DE NAISSANCE</label>
+            <input id="newDriverBirthCity">
+          </div>
+
+          <div class="form-field">
+            <label for="newDriverBirthPostalCode">CODE POSTAL VILLE DE NAISSANCE</label>
+            <input id="newDriverBirthPostalCode" maxlength="12" autocomplete="off">
+          </div>
+
+          <div class="form-field">
+            <label for="newDriverPhone">TÉLÉPHONE</label>
+            <input id="newDriverPhone" placeholder="06 00 00 00 00" autocomplete="tel">
+          </div>
+
+          <div class="form-field full">
+            <label for="newDriverAddress">ADRESSE</label>
+            <input id="newDriverAddress" placeholder="N° et nom de rue" autocomplete="street-address">
+          </div>
+
+          <div class="form-field">
+            <label for="newDriverPostalCode">CODE POSTAL</label>
+            <input id="newDriverPostalCode" maxlength="5" inputmode="numeric" autocomplete="postal-code">
+          </div>
+
+          <div class="form-field">
+            <label for="newDriverCity">VILLE</label>
+            <input id="newDriverCity" autocomplete="address-level2">
+          </div>
+
+          <div class="form-field">
+            <label for="newDriverLicenseNumber">N° DE PERMIS</label>
+            <input id="newDriverLicenseNumber">
+          </div>
+
+          <div class="form-field">
+            <label for="newDriverLicenseIssueDate">DATE DE DÉLIVRANCE DU PERMIS</label>
+            <input id="newDriverLicenseIssueDate" type="date">
+          </div>
+
+          <div class="form-field">
+            <label for="newDriverLicenseExpiry">DATE D'EXPIRATION DU PERMIS</label>
+            <input id="newDriverLicenseExpiry" type="date">
+          </div>
+        </div>
+
+        <div class="form-error" id="addDriverError"></div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="modal-btn" type="button" id="cancelAddDriver">Annuler</button>
+        <button class="modal-btn primary" type="submit">Ajouter le chauffeur</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="deleteDriverModal" hidden>
+  <div class="modal-card confirm-card" role="alertdialog" aria-modal="true">
+    <div class="modal-head">
+      <div class="modal-title-wrap">
+        <div class="modal-icon">!</div>
+        <div><h2>Supprimer ce chauffeur ?</h2><p>Cette action demande une confirmation.</p></div>
+      </div>
+      <button class="modal-close-btn" type="button" id="closeDeleteDriver" aria-label="Fermer"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <div class="confirm-copy">
+      La fiche de <strong id="deleteDriverName"></strong> sera retirée de la page Chauffeur.
+      <div class="confirm-warning">Cette suppression n'efface pas une éventuelle affectation présente sur la page Affectations.</div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn" type="button" id="cancelDeleteDriver">Annuler</button>
+      <button class="modal-btn danger" type="button" id="confirmDeleteDriver">Supprimer</button>
+    </div>
+  </div>
+</div>
+
+<div class="row-actions-menu" id="rowActionsMenu" role="menu" hidden>
+  <button type="button" class="edit-action" id="editVehicleOption" role="menuitem"><span class="menu-icon-badge"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4z"/></svg></span><span>Modifier</span></button>
+  <button type="button" id="deleteVehicleOption" role="menuitem"><span class="menu-icon-badge"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M7 7l1 14h8l1-14"/><path d="M10 11v6M14 11v6"/></svg></span><span>Supprimer</span></button>
+</div>
+
+<div class="row-actions-menu" id="affectationActionsMenu" role="menu" hidden>
+  <button type="button" class="edit-action" id="editAffectationOption" role="menuitem"><span class="menu-icon-badge"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4z"/></svg></span><span>Modifier</span></button>
+  <button type="button" id="deleteAffectationOption" role="menuitem"><span class="menu-icon-badge"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M7 7l1 14h8l1-14"/><path d="M10 11v6M14 11v6"/></svg></span><span>Supprimer</span></button>
+</div>
+
+
+<div class="modal-overlay" id="editVehicleModal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="editVehicleTitle">
+    <div class="modal-head">
+      <div class="modal-title-wrap">
+        <div class="modal-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4z"/></svg></div>
+        <div><h2 id="editVehicleTitle">Modifier le véhicule</h2><p>Corrigez l’immatriculation, le type ou le numéro de parc.</p></div>
+      </div>
+      <button class="modal-close-btn" type="button" id="closeEditVehicle" aria-label="Fermer"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <form id="editVehicleForm" novalidate>
+      <div class="modal-body">
+        <div class="modal-fields">
+          <div class="form-field">
+            <label for="editVehicleRegistration">IMMATRICULATION</label>
+            <input id="editVehicleRegistration" maxlength="9" autocomplete="off" required>
+          </div>
+          <div class="form-field">
+            <label for="editVehicleType">TYPE</label>
+            <select id="editVehicleType" required>
+              <option value="Tracteur">Tracteur</option>
+              <option value="Semi">Semi</option>
+            </select>
+          </div>
+          <div class="form-field full" id="editParkNumberField">
+            <label for="editVehicleParkNumber">N° DE PARC</label>
+            <input id="editVehicleParkNumber" inputmode="numeric" maxlength="5">
+            <small>Utilisé pour les semi-remorques.</small>
+          </div>
+        </div>
+        <div class="form-error" id="editVehicleError" aria-live="polite"></div>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn" type="button" id="cancelEditVehicle">Annuler</button>
+        <button class="modal-btn primary" type="submit">Enregistrer</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="addVehicleModal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="addVehicleTitle">
+    <div class="modal-head">
+      <div class="modal-title-wrap">
+        <div class="modal-icon">＋</div>
+        <div><h2 id="addVehicleTitle">Ajouter un véhicule</h2><p>Ajoutez un tracteur ou une semi-remorque au parc.</p></div>
+      </div>
+      <button class="modal-close-btn" type="button" id="closeAddVehicle" aria-label="Fermer"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <form id="addVehicleForm" novalidate>
+      <div class="modal-body">
+        <div class="modal-fields">
+          <div class="form-field">
+            <label for="newVehicleRegistration">IMMATRICULATION</label>
+            <input id="newVehicleRegistration" maxlength="9" placeholder="Ex. AA-123-AA" autocomplete="off" required>
+          </div>
+          <div class="form-field">
+            <label for="newVehicleType">TYPE</label>
+            <select id="newVehicleType" required>
+              <option value="Tracteur">Tracteur</option>
+              <option value="Semi">Semi</option>
+            </select>
+          </div>
+          <div class="form-field full disabled" id="parkNumberField">
+            <label for="newVehicleParkNumber">N° DE PARC</label>
+            <input id="newVehicleParkNumber" inputmode="numeric" maxlength="5" placeholder="Ex. 10815" disabled>
+            <small>Obligatoire uniquement pour une semi-remorque.</small>
+          </div>
+        </div>
+        <div class="form-error" id="addVehicleError" aria-live="polite"></div>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn" type="button" id="cancelAddVehicle">Annuler</button>
+        <button class="modal-btn primary" type="submit">Ajouter au parc</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="deleteVehicleModal" hidden>
+  <div class="modal-card confirm-card" role="alertdialog" aria-modal="true" aria-labelledby="deleteVehicleTitle" aria-describedby="deleteVehicleDescription">
+    <div class="modal-head">
+      <div class="modal-title-wrap">
+        <div class="modal-icon">!</div>
+        <div><h2 id="deleteVehicleTitle">Supprimer ce véhicule ?</h2><p>Cette action demande une confirmation.</p></div>
+      </div>
+      <button class="modal-close-btn" type="button" id="closeDeleteVehicle" aria-label="Fermer"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <div class="confirm-copy" id="deleteVehicleDescription">
+      Le véhicule <strong id="deleteVehicleRegistration"></strong> sera retiré de la liste.
+      <div class="confirm-warning">Vérifiez l’immatriculation avant de confirmer la suppression.</div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn" type="button" id="cancelDeleteVehicle">Annuler</button>
+      <button class="modal-btn danger" type="button" id="confirmDeleteVehicle">Supprimer</button>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal-overlay" id="editAssignmentModal" hidden>
+  <div class="modal-card assignment-edit-card" role="dialog" aria-modal="true" aria-labelledby="editAssignmentTitle">
+    <div class="modal-head">
+      <div class="modal-title-wrap">
+        <div class="modal-icon"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4z"/></svg></div>
+        <div>
+          <h2 id="editAssignmentTitle">Modifier l’affectation</h2>
+          <p id="selectedDriverName">Aucun chauffeur sélectionné</p>
+        </div>
+      </div>
+      <button class="modal-close-btn" type="button" id="closeEditAssignment" aria-label="Fermer"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+
+    <div class="modal-body">
+      <div class="aff-form" id="affForm">
+        <div class="form-field full">
+          <label for="affName">CHAUFFEUR</label>
+          <select id="affName" disabled>
+            <option value="">— Sélectionner un chauffeur —</option>
+          </select>
+        </div>
+
+        <div class="aff-two-cols">
+          <div class="form-field">
+            <label for="affTractor">TRACTEUR</label>
+            <select id="affTractor" disabled><option value="">—</option></select>
+          </div>
+          <div class="form-field">
+            <label for="affSemi">SEMI</label>
+            <select id="affSemi" disabled><option value="">—</option></select>
+          </div>
+        </div>
+
+        <div class="aff-two-cols">
+          <div class="form-field">
+            <label for="affNumber">N° DE PARC</label>
+            <input id="affNumber" disabled>
+          </div>
+          <div class="form-field">
+            <label for="affPhone">TÉLÉPHONE PRO</label>
+            <input id="affPhone" disabled>
+          </div>
+        </div>
+
+        <div class="form-field full">
+          <label for="affPersonal">N° PERSONNEL</label>
+          <input id="affPersonal" disabled>
+        </div>
+
+        <div class="aff-notice" id="affNotice" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="modal-btn" type="button" id="cancelEditAssignment">Annuler</button>
+      <button class="modal-btn primary" id="saveAssignment" type="button" disabled>Enregistrer les modifications</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="deleteAssignmentModal" hidden>
+  <div class="modal-card confirm-card" role="alertdialog" aria-modal="true" aria-labelledby="deleteAssignmentTitle" aria-describedby="deleteAssignmentDescription">
+    <div class="modal-head">
+      <div class="modal-title-wrap">
+        <div class="modal-icon">!</div>
+        <div><h2 id="deleteAssignmentTitle">Supprimer cette affectation ?</h2><p>Cette action demande une confirmation.</p></div>
+      </div>
+      <button class="modal-close-btn" type="button" id="closeDeleteAssignment" aria-label="Fermer"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <div class="confirm-copy" id="deleteAssignmentDescription">
+      L’affectation de <strong id="deleteAssignmentName"></strong> sera retirée de la liste.
+      <div class="confirm-warning">Le chauffeur ne sera plus présent dans les affectations enregistrées dans ce navigateur.</div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn" type="button" id="cancelDeleteAssignment">Annuler</button>
+      <button class="modal-btn danger" type="button" id="confirmDeleteAssignment">Supprimer</button>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal-overlay" id="addAssignmentModal" hidden>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="addAssignmentTitle">
+    <div class="modal-head">
+      <div class="modal-title-wrap">
+        <div class="modal-icon">＋</div>
+        <div><h2 id="addAssignmentTitle">Ajouter une affectation</h2><p>Ajoutez un chauffeur et associez-lui un tracteur et une semi-remorque.</p></div>
+      </div>
+      <button class="modal-close-btn" type="button" id="closeAddAssignment" aria-label="Fermer"><svg class="app-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <form id="addAssignmentForm" novalidate>
+      <div class="modal-body">
+        <div class="modal-fields">
+          <div class="form-field full">
+            <label for="newAssignmentName">CHAUFFEUR</label>
+            <select id="newAssignmentName" required>
+              <option value="">— Sélectionner un chauffeur —</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="newAssignmentTractor">TRACTEUR</label>
+            <select id="newAssignmentTractor"><option value="">—</option></select>
+          </div>
+          <div class="form-field">
+            <label for="newAssignmentSemi">SEMI</label>
+            <select id="newAssignmentSemi"><option value="">—</option></select>
+          </div>
+          <div class="form-field">
+            <label for="newAssignmentNumber">N° DE PARC</label>
+            <input id="newAssignmentNumber" inputmode="numeric" maxlength="5" placeholder="Ex. 10725">
+          </div>
+          <div class="form-field">
+            <label for="newAssignmentPhone">TÉLÉPHONE PRO</label>
+            <input id="newAssignmentPhone" inputmode="tel" placeholder="Ex. 06 12 34 56 78">
+          </div>
+          <div class="form-field full">
+            <label for="newAssignmentPersonal">N° PERSONNEL</label>
+            <input id="newAssignmentPersonal" inputmode="tel" placeholder="Ex. 06 98 76 54 32">
+          </div>
+        </div>
+        <div class="form-error" id="addAssignmentError" aria-live="polite"></div>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn" type="button" id="cancelAddAssignment">Annuler</button>
+        <button class="modal-btn primary" type="submit">Ajouter l’affectation</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="assets/js/01-initialisation-interface.js"></script>
+
+
+  <div class="notification-panel" id="notificationPanel" hidden>
+    <div class="notification-head">
+      <div>
+        <div class="notification-title">Notifications</div>
+        <div class="notification-sub" id="notificationSubtitle">Éléments nécessitant votre attention</div>
+      </div>
+      <button class="notification-close" id="notificationClose" type="button">×</button>
+    </div>
+    <div class="notification-list" id="notificationList"></div>
+    <div class="notification-quick">
+      <div class="notification-quick-title">VÉHICULES FAVORIS / RÉCENTS</div>
+      <div class="notification-chips" id="notificationQuickVehicles"></div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="vehicleDossierModal" hidden>
+    <div class="modal-card vehicle-dossier-card" role="dialog" aria-modal="true" aria-labelledby="vehicleDossierTitle">
+      <div class="modal-head">
+        <div>
+          <div class="parc-eyebrow">FICHE CENTRALISÉE</div>
+          <h2 id="vehicleDossierTitle">Fiche véhicule</h2>
+        </div>
+        <button class="modal-close" id="vehicleDossierClose" type="button" aria-label="Fermer">×</button>
+      </div>
+      <div class="vehicle-dossier-body" id="vehicleDossierBody"></div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="sharedConflictModal" hidden>
+    <div class="modal-card conflict-card" role="dialog" aria-modal="true" aria-labelledby="sharedConflictTitle">
+      <div class="modal-head">
+        <div>
+          <div class="parc-eyebrow">CONFLIT MULTI-UTILISATEURS</div>
+          <h2 id="sharedConflictTitle">Cette donnée a changé</h2>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="conflict-banner" id="sharedConflictBanner">
+          Un autre utilisateur a modifié la même donnée pendant votre saisie.
+        </div>
+        <div class="conflict-items" id="sharedConflictItems"></div>
+        <div class="conflict-choice-note">
+          <b>Recharger</b> abandonne votre modification locale et récupère la version du Groupdrive.
+          <b>Conserver mes modifications</b> enregistre votre version sur les éléments en conflit tout en conservant les autres changements distants.
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn" id="sharedConflictReload" type="button">Recharger la version partagée</button>
+        <button class="modal-btn primary" id="sharedConflictKeep" type="button">Conserver mes modifications</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-toast-stack" id="dashboardToastStack"></div>
+  <div class="shortcut-help" id="shortcutHelp">Ctrl + K : recherche · Échap : fermer · Alt + P : Parc · Alt + A : Affectations</div>
+
+
+  <div class="modal-overlay" id="dashboardUpdateModal" hidden>
+    <div class="modal-card dashboard-update-modal-card" role="dialog" aria-modal="true" aria-labelledby="dashboardUpdateModalTitle">
+      <div class="modal-head">
+        <div>
+          <div class="parc-eyebrow">ADMINISTRATEUR</div>
+          <h2 id="dashboardUpdateModalTitle">Mettre à jour le dashboard</h2>
+        </div>
+        <button class="modal-close" id="dashboardUpdateModalClose" type="button" aria-label="Fermer">×</button>
+      </div>
+
+      <div class="dashboard-update-step" id="dashboardUpdateStep1">
+        <strong>1. Préparer l’assistant Windows</strong><br>
+        Téléchargez l’assistant ci-dessous. Dans l’Explorateur, affichez les extensions puis renommez <b>Mettre-a-jour.ps1.txt</b> en <b>Mettre-a-jour.ps1</b>.
+      </div>
+
+      <div class="dashboard-update-step" id="dashboardUpdateStep2">
+        <strong>2. Choisir la version et le dossier</strong><br>
+        Fermez le dashboard sur tous les postes. Faites un clic droit sur l’assistant puis « Exécuter avec PowerShell ». Choisissez le ZIP et le dossier contenant le HTML actuel.
+      </div>
+
+      <div class="dashboard-update-step" id="dashboardUpdateStep3">
+        <strong>3. Confirmer l’installation</strong><br>
+        Vérifiez le dossier affiché. L’ancienne version est conservée dans <b>Sauvegardes_versions</b>. Le dossier <b>Data</b> reste intact. Si Windows refuse le lancement, demandez l’aide de votre service informatique.
+      </div>
+
+      <div class="dashboard-update-actions">
+        <button class="btn-secondary" id="dashboardUpdateModalCancel" type="button">Annuler</button>
+        <button class="btn-primary" id="dashboardUpdateSelectFile" type="button">Télécharger l’assistant Windows</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-version-banner" id="dashboardVersionBanner" hidden>
+    <div class="dashboard-version-banner-copy">
+      <strong>Une nouvelle version du dashboard est disponible</strong>
+      Le fichier partagé a été mis à jour. Recharge la page pour utiliser la nouvelle version.
+    </div>
+    <div class="dashboard-version-banner-actions">
+      <button id="dashboardVersionLater" type="button">Plus tard</button>
+      <button class="primary" id="dashboardVersionReload" type="button">Actualiser</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="adminSecurityModal" hidden>
+    <div class="modal-card adminsec-modal-card" role="dialog" aria-modal="true" aria-labelledby="adminSecurityTitle">
+      <div class="modal-head">
+        <div>
+          <div class="parc-eyebrow">ESPACE PROTÉGÉ</div>
+          <h2 id="adminSecurityTitle">Accès administrateur</h2>
+        </div>
+        <button class="modal-close" id="adminSecurityClose" type="button" aria-label="Fermer">×</button>
+      </div>
+
+      <div class="adminsec-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="4" y="10" width="16" height="11" rx="2"/>
+          <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
+          <path d="M12 14v3"/>
+        </svg>
+      </div>
+
+      <p class="adminsec-intro" id="adminSecurityIntro">
+        Saisis le mot de passe administrateur.
+      </p>
+
+      <div class="adminsec-field">
+        <label for="adminSecurityPassword">MOT DE PASSE ADMINISTRATEUR</label>
+        <input id="adminSecurityPassword" type="password" autocomplete="current-password" maxlength="128">
+      </div>
+
+      <div class="adminsec-field" id="adminSecurityConfirmWrap" hidden>
+        <label for="adminSecurityConfirm">CONFIRMER LE MOT DE PASSE</label>
+        <input id="adminSecurityConfirm" type="password" autocomplete="new-password" maxlength="128">
+      </div>
+
+      <div class="adminsec-error" id="adminSecurityError"></div>
+
+      <div class="adminsec-actions">
+        <button class="btn-secondary" id="adminSecurityCancel" type="button">Annuler</button>
+        <button class="btn-primary" id="adminSecuritySubmit" type="button">Déverrouiller</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="dashboardUserModal" hidden>
+    <div class="modal-card user-id-modal-card" role="dialog" aria-modal="true" aria-labelledby="dashboardUserTitle">
+      <div class="modal-head">
+        <div>
+          <div class="parc-eyebrow">IDENTIFICATION</div>
+          <h2 id="dashboardUserTitle">Identifiant utilisateur</h2>
+        </div>
+        <button class="modal-close" id="closeDashboardUserModal" type="button" aria-label="Fermer">×</button>
+      </div>
+
+      <div class="user-id-field">
+        <label for="dashboardUserInput">IDENTIFIANT</label>
+        <input id="dashboardUserInput" maxlength="30" autocomplete="off" placeholder="Ex. THEMIA">
+      </div>
+      <div class="user-id-hint">
+        Utilise simplement ton identifiant Windows, par exemple <b>THEMIA</b>. Il sera mémorisé uniquement sur ce navigateur.
+      </div>
+      <div class="user-id-error" id="dashboardUserError">Entre un identifiant valide.</div>
+
+      <div class="shared-storage-actions">
+        <button class="btn-primary" id="saveDashboardUser" type="button">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="sharedStorageModal">
+    <div class="modal-card shared-storage-modal-card" role="dialog" aria-modal="true" aria-labelledby="sharedStorageTitle">
+      <div class="modal-head">
+        <div>
+          <div class="parc-eyebrow">MODE MULTI-UTILISATEURS</div>
+          <h2 id="sharedStorageTitle">Connexion obligatoire</h2>
+        </div>
+        <button class="modal-close" id="closeSharedStorageModal" type="button" aria-label="Fermer">×</button>
+      </div>
+
+      <div class="shared-storage-simple">
+        <div class="shared-storage-hero">
+          <span class="shared-storage-hero-dot" id="sharedStorageHeroDot"></span>
+          <div class="shared-storage-hero-text">
+            <strong id="sharedStorageState">Connexion requise</strong>
+            <span id="sharedStorageFolder">Connecte le dossier partagé pour accéder au dashboard.</span>
+          </div>
+        </div>
+
+        <div class="shared-storage-message warn" id="sharedStorageMessage">
+          <b>Pour commencer :</b> clique sur le bouton, puis choisis le dossier <b>Dashboard</b> du Groupdrive.
+          Le dossier <b>Data</b> sera détecté automatiquement.
+        </div>
+
+        <div class="shared-storage-actions">
+          <button class="btn-primary" id="connectSharedStorage" type="button">Choisir le dossier partagé</button>
+          <button class="btn-secondary" id="syncSharedStorage" type="button" hidden>Synchroniser</button>
+          <button class="btn-secondary" id="disconnectSharedStorage" type="button" hidden>Changer de dossier</button>
+        </div>
+
+        <div class="shared-storage-mini-note">
+          Déjà connecté ? Rien à faire : les données se synchronisent automatiquement.
+        </div>
+      </div>
+
+      <span id="sharedStorageLastSync" hidden>—</span>
+      <span id="sharedStorageFileCount" hidden>0 / 10</span>
+    </div>
+  </div>
+
+<script src="assets/js/pages/commun.js"></script>
+<script src="assets/js/pages/parc.js"></script>
+<script src="assets/js/pages/affectations.js"></script>
+<script src="assets/js/pages/chauffeurs.js"></script>
+<script src="assets/js/pages/sinistres.js"></script>
+<script src="assets/js/pages/suivi-technique.js"></script>
+<script src="assets/js/pages/administrateur.js"></script>
+<script src="assets/js/pages/carburant.js"></script>
+<script src="assets/js/pages/accueil.js"></script>
+<script src="assets/js/pages/stockage-partage.js"></script>
+<script src="assets/js/xlsx.full.min.js"></script>
+<script src="assets/js/02-initialisation.js"></script>
+
+
+<script id="technical-deadlines-script" src="assets/js/03-technical-deadlines.js"></script>
+
+<link id="dashboard-pro-patch-style" rel="stylesheet" href="assets/css/02-dashboard-pro-patch.css">
+<script id="dashboard-pro-patch-script" src="assets/js/04-dashboard-pro-patch.js"></script>
+
+
+<link id="dashboard-full-upgrade-style" rel="stylesheet" href="assets/css/03-dashboard-full-upgrade.css">
+<script id="dashboard-full-upgrade-script" src="assets/js/05-dashboard-full-upgrade.js"></script>
+
+<link id="admin-anomaly-action-center-style" rel="stylesheet" href="assets/css/04-admin-anomaly-action-center.css">
+<script id="admin-anomaly-action-center-script" src="assets/js/06-admin-anomaly-action-center.js"></script>
+
+<script id="technical-driver-live-link-patch" src="assets/js/07-technical-driver-live-link-patch.js"></script>
+
+<script id="fleet-priorities-model" src="assets/js/08-fleet-priorities-model.js"></script>
+
+<script id="driver-readonly-lock" src="assets/js/09-driver-readonly-lock.js"></script>
+
+<link id="sidebar-tree-style" rel="stylesheet" href="assets/css/05-sidebar-tree.css">
+<script id="sidebar-tree-script" src="assets/js/10-sidebar-tree.js"></script>
+<link id="workflow-comfort-style" rel="stylesheet" href="assets/css/06-workflow-comfort.css">
+<script id="workflow-comfort-script" src="assets/js/11-workflow-comfort.js"></script>
+<link id="administrator-redesign-style" rel="stylesheet" href="assets/css/07-administrator-redesign.css">
+<script id="administrator-redesign-script" src="assets/js/12-administrator-redesign.js"></script>
+
+
+
+
+
+
+
+
+
+<link id="home-kpi-dashboard-style" rel="stylesheet" href="assets/css/08-home-kpi-dashboard.css">
+<script id="home-kpi-dashboard-script" src="assets/js/13-home-kpi-dashboard.js"></script>
+<link rel="stylesheet" href="assets/css/15-dashboard-enhancements.css">
+<script src="assets/js/15-dashboard-quick-actions.js"></script>
+<link rel="stylesheet" href="assets/css/16-dashboard-data-tools.css">
+<script src="assets/js/16-dashboard-data-tools.js"></script>
+<link rel="stylesheet" href="assets/css/09-edition-technique.css">
+<link rel="stylesheet" href="assets/css/10-typographie-legere.css">
+<link rel="stylesheet" href="assets/css/11-texte-direct.css">
+<link rel="stylesheet" href="assets/css/12-formes-carrees.css">
+<script src="assets/js/pages/edition-technique.js"></script>
+<script src="assets/js/pages/parc-entretien.js"></script>
+<link rel="stylesheet" href="assets/css/13-quotidien.css">
+<script src="assets/js/14-quotidien.js"></script>
+<link rel="stylesheet" href="assets/css/17-notifications-redesign.css">
+<link rel="stylesheet" href="assets/css/18-shared-storage-simple.css">
+
+</body>
+</html>
